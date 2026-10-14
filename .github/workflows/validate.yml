@@ -1,0 +1,54 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Regenerate dataset from frozen config
+        run: python3 src/generate.py
+
+      - name: Assert regeneration is deterministic
+        run: |
+          git diff --exit-code -- final/ \
+            || (echo "::error::final/ is not reproducible from config/"; exit 1)
+
+      - name: Verify release integrity
+        run: python3 src/verify_saved.py
+
+      - name: Run consistency tests
+        run: python3 tests/test_release_consistency.py
+
+      - name: Assert no hard-coded real-world identifiers
+        run: |
+          python3 - << 'PY'
+          import json, re, sys
+          from pathlib import Path
+
+          constraints = json.loads(Path("config/constraints.json").read_text(encoding="utf-8"))
+          prompts = [json.loads(l) for l in
+                     open("final/news_rumor_prompts_3000.jsonl", encoding="utf-8")]
+
+          banned = [
+              "\u4e60\u8fd1\u5e73", "BBC News", "CNN", "Reuters",
+              "\u65b0\u534e\u793e", "\u592e\u89c6", "\u4eba\u6c11\u65e5\u62a5",
+          ]
+          hits = []
+          for p in prompts:
+              for b in banned:
+                  if b in p["prompt"]:
+                      hits.append((p["prompt_id"], b))
+          if hits:
+              print("banned identifier found:", hits[:5])
+              sys.exit(1)
+          print("blacklist check passed")
+          PY

@@ -1,0 +1,1102 @@
+{
+  "carrier": "R1",
+  "name_zh": "社交平台帖文图文",
+  "version": "1.0",
+  "note": "layout_id 定义版面分区顺序与各分区文字角色；提示词按 section 顺序生成。{占版比} 为参考比例，生成时可微调但同一组三档必须一致。",
+  "layouts": {
+    "cn_social_text_only": {
+      "platform_family": "cn_social",
+      "sub_carrier": "text_only_post",
+      "name_zh": "中文社交纯文字帖",
+      "aspect_ratio": "1:1",
+      "sections": [
+        {
+          "role": "top_bar",
+          "pct": 7,
+          "text_roles": [
+            "platform_label"
+          ],
+          "note": "返回箭头、标题、更多按钮"
+        },
+        {
+          "role": "author_block",
+          "pct": 13,
+          "text_roles": [
+            "account_name",
+            "account_meta",
+            "verified_label"
+          ]
+        },
+        {
+          "role": "body",
+          "pct": 58,
+          "text_roles": [
+            "body_text",
+            "hashtags"
+          ]
+        },
+        {
+          "role": "interaction_bar",
+          "pct": 11,
+          "text_roles": [
+            "comment_metric",
+            "repost_metric",
+            "like_metric"
+          ]
+        },
+        {
+          "role": "timestamp",
+          "pct": 6,
+          "text_roles": [
+            "publish_time",
+            "source_label"
+          ]
+        },
+        {
+          "role": "watermark",
+          "pct": 5,
+          "text_roles": [
+            "account_handle"
+          ]
+        },
+        {
+          "role": "extended_body",
+          "pct": 0,
+          "text_roles": [
+            "body_line2",
+            "body_line3",
+            "body_line4"
+          ],
+          "note": "正文续行"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "body_line5",
+            "body_line6",
+            "body_line7"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "body_line8",
+            "body_line9",
+            "body_line10"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "cn_social_image_post": {
+      "platform_family": "cn_social",
+      "sub_carrier": "image_post",
+      "name_zh": "中文社交图文帖",
+      "aspect_ratio": "4:5",
+      "sections": [
+        {
+          "role": "top_bar",
+          "pct": 6,
+          "text_roles": [
+            "platform_label"
+          ]
+        },
+        {
+          "role": "author_block",
+          "pct": 10,
+          "text_roles": [
+            "account_name",
+            "account_meta"
+          ]
+        },
+        {
+          "role": "body",
+          "pct": 14,
+          "text_roles": [
+            "body_text",
+            "hashtags"
+          ]
+        },
+        {
+          "role": "media",
+          "pct": 54,
+          "text_roles": [],
+          "note": "现场图，可含嵌入文字"
+        },
+        {
+          "role": "interaction_bar",
+          "pct": 9,
+          "text_roles": [
+            "comment_metric",
+            "repost_metric",
+            "like_metric"
+          ]
+        },
+        {
+          "role": "timestamp",
+          "pct": 7,
+          "text_roles": [
+            "publish_time",
+            "source_label"
+          ]
+        },
+        {
+          "role": "caption_block",
+          "pct": 0,
+          "text_roles": [
+            "caption_line1",
+            "caption_line2"
+          ],
+          "note": "配图说明两行"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "caption_line4",
+            "caption_line5"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "caption_line4",
+            "caption_line5",
+            "caption_line6"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "cn_social_grid_gallery": {
+      "platform_family": "cn_social",
+      "sub_carrier": "grid_gallery_post",
+      "name_zh": "中文社交图集九宫格帖",
+      "aspect_ratio": "3:4",
+      "sections": [
+        {
+          "role": "top_bar",
+          "pct": 6,
+          "text_roles": [
+            "platform_label"
+          ]
+        },
+        {
+          "role": "author_block",
+          "pct": 9,
+          "text_roles": [
+            "account_name",
+            "account_meta"
+          ]
+        },
+        {
+          "role": "body",
+          "pct": 12,
+          "text_roles": [
+            "body_text"
+          ]
+        },
+        {
+          "role": "gallery",
+          "pct": 58,
+          "text_roles": [],
+          "note": "九宫格缩略图，可含嵌入文字"
+        },
+        {
+          "role": "caption_strip",
+          "pct": 8,
+          "text_roles": [
+            "image_caption",
+            "hashtags"
+          ]
+        },
+        {
+          "role": "interaction_bar",
+          "pct": 7,
+          "text_roles": [
+            "comment_metric",
+            "repost_metric",
+            "like_metric"
+          ]
+        },
+        {
+          "role": "inline_note",
+          "pct": 0,
+          "text_roles": [
+            "note_line1",
+            "note_line2"
+          ],
+          "note": "图集内嵌说明"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "note_line3",
+            "note_line4"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "note_line3",
+            "note_line4",
+            "note_line5"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "cn_social_quote_repost": {
+      "platform_family": "cn_social",
+      "sub_carrier": "quote_repost",
+      "name_zh": "中文社交引用转发帖",
+      "aspect_ratio": "4:5",
+      "sections": [
+        {
+          "role": "top_bar",
+          "pct": 6,
+          "text_roles": [
+            "platform_label"
+          ]
+        },
+        {
+          "role": "author_block",
+          "pct": 10,
+          "text_roles": [
+            "account_name",
+            "account_meta"
+          ]
+        },
+        {
+          "role": "body",
+          "pct": 16,
+          "text_roles": [
+            "body_text"
+          ]
+        },
+        {
+          "role": "quoted_card",
+          "pct": 46,
+          "text_roles": [
+            "quoted_account",
+            "quoted_handle",
+            "quoted_body",
+            "quoted_time"
+          ],
+          "note": "内嵌引用区块，边框与底色区分"
+        },
+        {
+          "role": "interaction_bar",
+          "pct": 9,
+          "text_roles": [
+            "comment_metric",
+            "repost_metric",
+            "like_metric"
+          ]
+        },
+        {
+          "role": "timestamp",
+          "pct": 13,
+          "text_roles": [
+            "publish_time",
+            "source_label"
+          ]
+        },
+        {
+          "role": "commentary_block",
+          "pct": 0,
+          "text_roles": [
+            "commentary_line1",
+            "commentary_line2"
+          ],
+          "note": "转发附言"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "commentary_line3",
+            "commentary_line4"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "commentary_line5",
+            "commentary_line6"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "cn_social_topic_aggregation": {
+      "platform_family": "cn_social",
+      "sub_carrier": "topic_aggregation",
+      "name_zh": "中文社交话题聚合页",
+      "aspect_ratio": "4:5",
+      "sections": [
+        {
+          "role": "top_bar",
+          "pct": 7,
+          "text_roles": [
+            "platform_label"
+          ]
+        },
+        {
+          "role": "topic_header",
+          "pct": 15,
+          "text_roles": [
+            "topic_title",
+            "topic_metric",
+            "topic_status"
+          ]
+        },
+        {
+          "role": "post_list",
+          "pct": 60,
+          "text_roles": [
+            "post1_account",
+            "post1_body",
+            "post2_account",
+            "post2_body",
+            "post3_account",
+            "post3_body"
+          ]
+        },
+        {
+          "role": "bottom_action",
+          "pct": 10,
+          "text_roles": [
+            "join_action",
+            "share_metric"
+          ]
+        },
+        {
+          "role": "disclaimer_strip",
+          "pct": 8,
+          "text_roles": [
+            "platform_statement"
+          ]
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "post1_body2",
+            "post2_body2",
+            "post3_body2"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "post1_body2",
+            "post2_body2",
+            "post3_body2"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "cn_social_embedded_comment": {
+      "platform_family": "cn_social",
+      "sub_carrier": "embedded_comment",
+      "name_zh": "中文社交评论区内嵌帖",
+      "aspect_ratio": "4:5",
+      "sections": [
+        {
+          "role": "top_bar",
+          "pct": 6,
+          "text_roles": [
+            "platform_label"
+          ]
+        },
+        {
+          "role": "author_block",
+          "pct": 9,
+          "text_roles": [
+            "account_name",
+            "account_meta"
+          ]
+        },
+        {
+          "role": "body",
+          "pct": 13,
+          "text_roles": [
+            "body_text"
+          ]
+        },
+        {
+          "role": "media",
+          "pct": 30,
+          "text_roles": []
+        },
+        {
+          "role": "comment_list",
+          "pct": 30,
+          "text_roles": [
+            "comment1_account",
+            "comment1_body",
+            "comment1_metric",
+            "comment2_account",
+            "comment2_body",
+            "comment2_metric"
+          ]
+        },
+        {
+          "role": "comment_input",
+          "pct": 12,
+          "text_roles": [
+            "input_placeholder"
+          ]
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "comment1_body2",
+            "comment2_body2",
+            "comment3_account",
+            "comment3_body"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "comment3_body",
+            "comment4_body",
+            "comment4_account"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "en_social_text_only": {
+      "platform_family": "en_social",
+      "sub_carrier": "text_only_post",
+      "name_zh": "英文社交纯文字帖",
+      "aspect_ratio": "1:1",
+      "sections": [
+        {
+          "role": "top_bar",
+          "pct": 7,
+          "text_roles": [
+            "platform_label"
+          ]
+        },
+        {
+          "role": "author_block",
+          "pct": 13,
+          "text_roles": [
+            "display_name",
+            "verified_label",
+            "handle",
+            "post_time"
+          ]
+        },
+        {
+          "role": "body",
+          "pct": 58,
+          "text_roles": [
+            "body_text",
+            "hashtags"
+          ]
+        },
+        {
+          "role": "interaction_bar",
+          "pct": 11,
+          "text_roles": [
+            "reply_metric",
+            "repost_metric",
+            "like_metric",
+            "view_metric"
+          ]
+        },
+        {
+          "role": "timestamp",
+          "pct": 11,
+          "text_roles": [
+            "post_datetime",
+            "source_label"
+          ]
+        },
+        {
+          "role": "extended_body",
+          "pct": 0,
+          "text_roles": [
+            "body_line2",
+            "body_line3",
+            "body_line4"
+          ],
+          "note": "Post body continuation"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "body_line8",
+            "body_line9",
+            "body_line10"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "en_social_image_post": {
+      "platform_family": "en_social",
+      "sub_carrier": "image_post",
+      "name_zh": "英文社交图文帖",
+      "aspect_ratio": "4:5",
+      "sections": [
+        {
+          "role": "top_bar",
+          "pct": 6,
+          "text_roles": [
+            "platform_label"
+          ]
+        },
+        {
+          "role": "author_block",
+          "pct": 10,
+          "text_roles": [
+            "display_name",
+            "handle",
+            "post_time"
+          ]
+        },
+        {
+          "role": "body",
+          "pct": 14,
+          "text_roles": [
+            "body_text",
+            "hashtags"
+          ]
+        },
+        {
+          "role": "media",
+          "pct": 54,
+          "text_roles": []
+        },
+        {
+          "role": "interaction_bar",
+          "pct": 9,
+          "text_roles": [
+            "reply_metric",
+            "repost_metric",
+            "like_metric",
+            "view_metric"
+          ]
+        },
+        {
+          "role": "timestamp",
+          "pct": 7,
+          "text_roles": [
+            "post_datetime",
+            "source_label"
+          ]
+        },
+        {
+          "role": "caption_block",
+          "pct": 0,
+          "text_roles": [
+            "caption_line1",
+            "caption_line2"
+          ],
+          "note": "Media caption"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "caption_line4",
+            "caption_line5",
+            "caption_line6"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "en_social_quote_repost": {
+      "platform_family": "en_social",
+      "sub_carrier": "quote_repost",
+      "name_zh": "英文社交引用帖",
+      "aspect_ratio": "4:5",
+      "sections": [
+        {
+          "role": "top_bar",
+          "pct": 6,
+          "text_roles": [
+            "platform_label"
+          ]
+        },
+        {
+          "role": "author_block",
+          "pct": 10,
+          "text_roles": [
+            "display_name",
+            "handle"
+          ]
+        },
+        {
+          "role": "body",
+          "pct": 16,
+          "text_roles": [
+            "body_text"
+          ]
+        },
+        {
+          "role": "quoted_card",
+          "pct": 46,
+          "text_roles": [
+            "quoted_display_name",
+            "quoted_handle",
+            "quoted_body",
+            "quoted_time"
+          ],
+          "note": "quote tweet 内嵌区块"
+        },
+        {
+          "role": "interaction_bar",
+          "pct": 9,
+          "text_roles": [
+            "reply_metric",
+            "repost_metric",
+            "like_metric"
+          ]
+        },
+        {
+          "role": "timestamp",
+          "pct": 13,
+          "text_roles": [
+            "post_datetime",
+            "source_label"
+          ]
+        },
+        {
+          "role": "commentary_block",
+          "pct": 0,
+          "text_roles": [
+            "commentary_line1",
+            "commentary_line2"
+          ],
+          "note": "Quote commentary"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "commentary_line5",
+            "commentary_line6"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "image_social_post": {
+      "platform_family": "image_social",
+      "sub_carrier": "image_post",
+      "name_zh": "图片社交图文帖",
+      "aspect_ratio": "4:5",
+      "sections": [
+        {
+          "role": "top_bar",
+          "pct": 9,
+          "text_roles": [
+            "author_name",
+            "location_label",
+            "menu_label"
+          ]
+        },
+        {
+          "role": "media",
+          "pct": 56,
+          "text_roles": []
+        },
+        {
+          "role": "action_row",
+          "pct": 8,
+          "text_roles": [
+            "like_metric",
+            "comment_metric",
+            "share_metric",
+            "save_metric"
+          ]
+        },
+        {
+          "role": "caption_block",
+          "pct": 17,
+          "text_roles": [
+            "caption_text",
+            "hashtag_row"
+          ]
+        },
+        {
+          "role": "comment_preview",
+          "pct": 10,
+          "text_roles": [
+            "comment_account",
+            "comment_body"
+          ]
+        },
+        {
+          "role": "caption_extra",
+          "pct": 0,
+          "text_roles": [
+            "caption_line2",
+            "caption_line3"
+          ],
+          "note": "Caption continuation"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "caption_line4",
+            "caption_line5"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "caption_line6",
+            "caption_line7",
+            "caption_line8"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "image_social_grid": {
+      "platform_family": "image_social",
+      "sub_carrier": "grid_gallery_post",
+      "name_zh": "图片社交多图帖",
+      "aspect_ratio": "3:4",
+      "sections": [
+        {
+          "role": "top_bar",
+          "pct": 9,
+          "text_roles": [
+            "author_name",
+            "location_label"
+          ]
+        },
+        {
+          "role": "gallery",
+          "pct": 58,
+          "text_roles": [],
+          "note": "多图排列，可含嵌入文字"
+        },
+        {
+          "role": "action_row",
+          "pct": 8,
+          "text_roles": [
+            "like_metric",
+            "comment_metric",
+            "share_metric"
+          ]
+        },
+        {
+          "role": "caption_block",
+          "pct": 16,
+          "text_roles": [
+            "caption_text",
+            "hashtag_row"
+          ]
+        },
+        {
+          "role": "timestamp",
+          "pct": 9,
+          "text_roles": [
+            "post_time"
+          ]
+        },
+        {
+          "role": "caption_extra",
+          "pct": 0,
+          "text_roles": [
+            "caption_line2",
+            "caption_line3"
+          ],
+          "note": "Caption continuation"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "caption_line4",
+            "caption_line5"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "caption_line6",
+            "caption_line7",
+            "caption_line8"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "cn_social_html_post": {
+      "platform_family": "cn_social",
+      "sub_carrier": "image_post",
+      "name_zh": "中文社交图文帖（另一版式）",
+      "aspect_ratio": "4:5",
+      "sections": [
+        {
+          "role": "top_bar",
+          "pct": 7,
+          "text_roles": [
+            "platform_label",
+            "nav_label"
+          ]
+        },
+        {
+          "role": "author_block",
+          "pct": 12,
+          "text_roles": [
+            "account_name",
+            "verified_label",
+            "follow_label"
+          ]
+        },
+        {
+          "role": "body",
+          "pct": 15,
+          "text_roles": [
+            "body_text"
+          ]
+        },
+        {
+          "role": "media",
+          "pct": 46,
+          "text_roles": []
+        },
+        {
+          "role": "metrics_block",
+          "pct": 10,
+          "text_roles": [
+            "read_metric",
+            "comment_metric",
+            "like_metric"
+          ]
+        },
+        {
+          "role": "tags_strip",
+          "pct": 10,
+          "text_roles": [
+            "topic_tag",
+            "hashtags"
+          ]
+        },
+        {
+          "role": "article_excerpt",
+          "pct": 0,
+          "text_roles": [
+            "excerpt_line1",
+            "excerpt_line2",
+            "excerpt_line3"
+          ],
+          "note": "正文摘要，三行"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "excerpt_line4",
+            "excerpt_line5",
+            "excerpt_line6"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "excerpt_line7",
+            "excerpt_line8",
+            "excerpt_line9"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "en_social_news_card": {
+      "platform_family": "en_social",
+      "sub_carrier": "image_post",
+      "name_zh": "英文社交图文帖（新闻卡片式）",
+      "aspect_ratio": "4:5",
+      "sections": [
+        {
+          "role": "top_bar",
+          "pct": 6,
+          "text_roles": [
+            "platform_label"
+          ]
+        },
+        {
+          "role": "author_block",
+          "pct": 11,
+          "text_roles": [
+            "display_name",
+            "verified_label",
+            "handle",
+            "post_time"
+          ]
+        },
+        {
+          "role": "link_card",
+          "pct": 58,
+          "text_roles": [
+            "card_media_caption",
+            "card_source",
+            "card_headline",
+            "card_description"
+          ]
+        },
+        {
+          "role": "body",
+          "pct": 14,
+          "text_roles": [
+            "body_text"
+          ]
+        },
+        {
+          "role": "interaction_bar",
+          "pct": 11,
+          "text_roles": [
+            "reply_metric",
+            "repost_metric",
+            "like_metric"
+          ]
+        },
+        {
+          "role": "card_body",
+          "pct": 0,
+          "text_roles": [
+            "card_body_line1",
+            "card_body_line2"
+          ],
+          "note": "Card body"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "card_body_line3",
+            "card_body_line4",
+            "card_body_line5"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    }
+  }
+}

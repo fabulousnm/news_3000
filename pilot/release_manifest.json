@@ -1,0 +1,14 @@
+{
+ "dataset": "news_rumor_prompts_3000",
+ "version": "1.0",
+ "frozen_at": "2026-10-08",
+ "counts": {
+  "groups": 120,
+  "prompts": 360
+ },
+ "prompts_sha256": "947d4a4bfc847bd37992dbe89ba359401935b29a41f6b676ae78ddfcf551aee8",
+ "groups_sha256": "85e445333373ed24984e2ac10e8235a2fb3bb52bc6a35b09e736e84d722bcf99",
+ "frozen_quality_threshold_sha256": "f9bee6205e4a96c2ca443c6d644f435802ef6a1888471becf3cc059bfb4de723",
+ "quota_config_sha256": "26a3039dfff404cc2b1a61762554900fe5ac1c82e14247b0c1e8abd9feeb30cc",
+ "note": "配额、档位定义与质量分级阈值均在生成前冻结。"
+}

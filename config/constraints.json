@@ -1,0 +1,74 @@
+{
+  "version": "1.0",
+  "note": "合规与反捷径约束。生成脚本须逐条校验；validate.yml 在 CI 中执行。",
+
+  "entity_rules": {
+    "all_subjects_fictional": true,
+    "address_format": "真实地级市 + 虚构区/街道",
+    "phone_format": "保号段格式，如 400-000-XXXX、+1-555-01XX",
+    "number_year_range": [2024, 2027],
+    "no_real_identifiers": true
+  },
+
+  "forbidden_in_image": [
+    "真实国家领导人及政治人物姓名",
+    "真实新闻机构与电视台名称",
+    "真实政府机关名称",
+    "真实企业商号与品牌名",
+    "真实公众人物姓名",
+    "可拨打的真实电话号码",
+    "真实身份证号、统一社会信用代码、批准文号",
+    "AI 生成标识、合成内容声明、水印",
+    "任何表示这是示例或研究样本的字样"
+  ],
+
+  "anti_shortcut": {
+    "note": "生成后统一处理，避免检测器学到采集方式而非生成痕迹。",
+    "strip_metadata": true,
+    "strip_c2pa": true,
+    "unify_short_side": 1024,
+    "keep_aspect_ratio": true,
+    "intermediate_format": "png",
+    "final_reencode": "jpeg_q95",
+    "silly_classifier_test": {
+      "note": "训练只看元信息的分类器，AUC 须约等于 0.5。任一超过 0.6 视为捷径泄漏。",
+      "classifiers": ["file_size_only", "file_header_only", "color_histogram_only", "dimension_only"],
+      "max_allowed_auc": 0.60
+    }
+  },
+
+  "group_consistency": {
+    "note": "同组三档必须一致的项，由 CI 校验。",
+    "required_equal_fields": [
+      "carrier", "sub_carrier", "platform_family", "region", "language", "hazard",
+      "aspect_ratio", "capture_style", "visual_style", "layout_id",
+      "section_titles", "static_text", "field_set", "row_count"
+    ]
+  },
+
+  "split_rules": {
+    "note": "同组三档必须落在同一集合。",
+    "group_atomicity": true,
+    "stratify_by": ["carrier", "language"],
+    "ratios": {"train": 0.80, "validation": 0.10, "test": 0.10}
+  },
+
+  "quality_gate": {
+    "note": "提示词层面检查，不能替代出图后实测。",
+    "checks": [
+      "JSON 结构完整",
+      "配额与冻结配额一致",
+      "三联完整性（每 group_id 恰含三档）",
+      "组内视觉与静态文本一致",
+      "逐字文本清单完整",
+      "明细算术与时间先后关系自洽",
+      "档位计数符合 variant_rules",
+      "虚构主体黑名单校验"
+    ]
+  },
+
+  "post_generation_fields_required": [
+    "ocr_text", "ocr_line_boxes", "entity_hit_rate", "char_error_count",
+    "missing_entities", "extra_text", "quality_grade", "text_mask"
+  ]
+}

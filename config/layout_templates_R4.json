@@ -1,0 +1,438 @@
+{
+  "carrier": "R4",
+  "name_zh": "图文信息卡",
+  "version": "1.0",
+  "layouts": {
+    "share_card": {
+      "platform_family": "cn_social",
+      "sub_carrier": "share_card",
+      "name_zh": "社交媒体分享卡片",
+      "aspect_ratio": "4:5",
+      "sections": [
+        {
+          "role": "card_brand",
+          "pct": 10,
+          "text_roles": [
+            "outlet_name",
+            "card_kind_label"
+          ]
+        },
+        {
+          "role": "card_headline",
+          "pct": 16,
+          "text_roles": [
+            "headline",
+            "subheadline"
+          ]
+        },
+        {
+          "role": "card_media",
+          "pct": 42,
+          "text_roles": [],
+          "note": "配图，可含嵌入文字"
+        },
+        {
+          "role": "card_summary",
+          "pct": 18,
+          "text_roles": [
+            "summary_line1",
+            "summary_line2",
+            "summary_line3"
+          ]
+        },
+        {
+          "role": "card_footer",
+          "pct": 14,
+          "text_roles": [
+            "source_line",
+            "publish_time",
+            "qr_hint"
+          ]
+        },
+        {
+          "role": "summary_extra",
+          "pct": 0,
+          "text_roles": [
+            "summary_line4",
+            "summary_line5"
+          ],
+          "note": "摘要续行"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "summary_line6",
+            "summary_line7"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "summary_line8",
+            "summary_line9",
+            "summary_line10"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "summary_long_image": {
+      "platform_family": "cn_social",
+      "sub_carrier": "summary_long_image",
+      "name_zh": "新闻摘要长图",
+      "aspect_ratio": "9:16",
+      "sections": [
+        {
+          "role": "long_header",
+          "pct": 11,
+          "text_roles": [
+            "outlet_name",
+            "summary_title"
+          ]
+        },
+        {
+          "role": "lead_block",
+          "pct": 14,
+          "text_roles": [
+            "lead_headline",
+            "lead_body"
+          ]
+        },
+        {
+          "role": "point_block_1",
+          "pct": 16,
+          "text_roles": [
+            "point1_title",
+            "point1_body"
+          ]
+        },
+        {
+          "role": "point_block_2",
+          "pct": 16,
+          "text_roles": [
+            "point2_title",
+            "point2_body"
+          ]
+        },
+        {
+          "role": "point_block_3",
+          "pct": 16,
+          "text_roles": [
+            "point3_title",
+            "point3_body"
+          ]
+        },
+        {
+          "role": "conclusion_block",
+          "pct": 14,
+          "text_roles": [
+            "conclusion_title",
+            "conclusion_body"
+          ]
+        },
+        {
+          "role": "long_footer",
+          "pct": 13,
+          "text_roles": [
+            "source_line",
+            "publish_time",
+            "account_handle"
+          ]
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "point4_title",
+            "point4_body"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "point5_title",
+            "point5_body",
+            "point6_title",
+            "point6_body"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "topic_aggregation_long_image": {
+      "platform_family": "cn_social",
+      "sub_carrier": "topic_aggregation_long_image",
+      "name_zh": "话题聚合长图",
+      "aspect_ratio": "9:16",
+      "sections": [
+        {
+          "role": "topic_banner",
+          "pct": 13,
+          "text_roles": [
+            "topic_title",
+            "topic_period",
+            "topic_metric"
+          ]
+        },
+        {
+          "role": "case_entry_1",
+          "pct": 19,
+          "text_roles": [
+            "case1_title",
+            "case1_location",
+            "case1_date",
+            "case1_body"
+          ]
+        },
+        {
+          "role": "case_entry_2",
+          "pct": 19,
+          "text_roles": [
+            "case2_title",
+            "case2_location",
+            "case2_date",
+            "case2_body"
+          ]
+        },
+        {
+          "role": "case_entry_3",
+          "pct": 19,
+          "text_roles": [
+            "case3_title",
+            "case3_location",
+            "case3_date",
+            "case3_body"
+          ]
+        },
+        {
+          "role": "summary_note",
+          "pct": 16,
+          "text_roles": [
+            "summary_line",
+            "review_note"
+          ]
+        },
+        {
+          "role": "aggregation_footer",
+          "pct": 14,
+          "text_roles": [
+            "outlet_name",
+            "publish_time"
+          ]
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "case4_title",
+            "case4_location",
+            "case4_date",
+            "case4_body"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "case5_body",
+            "case6_body",
+            "case5_title",
+            "case6_title"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "timeline_image": {
+      "platform_family": "cn_social",
+      "sub_carrier": "timeline_image",
+      "name_zh": "事件梳理时间线图",
+      "aspect_ratio": "9:16",
+      "sections": [
+        {
+          "role": "timeline_header",
+          "pct": 13,
+          "text_roles": [
+            "timeline_title",
+            "timeline_scope",
+            "outlet_name"
+          ]
+        },
+        {
+          "role": "timeline_nodes",
+          "pct": 58,
+          "text_roles": [
+            "node1_time",
+            "node1_text",
+            "node2_time",
+            "node2_text",
+            "node3_time",
+            "node3_text",
+            "node4_time",
+            "node4_text"
+          ],
+          "note": "纵向时间线，节点以横线或圆点连接"
+        },
+        {
+          "role": "status_block",
+          "pct": 15,
+          "text_roles": [
+            "current_status",
+            "status_source"
+          ]
+        },
+        {
+          "role": "timeline_footer",
+          "pct": 14,
+          "text_roles": [
+            "update_note",
+            "publish_time"
+          ]
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "node5_time",
+            "node5_text",
+            "node6_time",
+            "node6_text"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "node7_text",
+            "node8_text",
+            "node7_time",
+            "node8_time"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "quick_read_card": {
+      "platform_family": "image_social",
+      "sub_carrier": "quick_read_card",
+      "name_zh": "图文速览卡",
+      "aspect_ratio": "4:5",
+      "sections": [
+        {
+          "role": "quick_header",
+          "pct": 12,
+          "text_roles": [
+            "card_label",
+            "card_index",
+            "card_topic"
+          ]
+        },
+        {
+          "role": "key_fact_1",
+          "pct": 18,
+          "text_roles": [
+            "fact1_label",
+            "fact1_value",
+            "fact1_note"
+          ]
+        },
+        {
+          "role": "key_fact_2",
+          "pct": 18,
+          "text_roles": [
+            "fact2_label",
+            "fact2_value",
+            "fact2_note"
+          ]
+        },
+        {
+          "role": "key_fact_3",
+          "pct": 18,
+          "text_roles": [
+            "fact3_label",
+            "fact3_value",
+            "fact3_note"
+          ]
+        },
+        {
+          "role": "key_fact_4",
+          "pct": 18,
+          "text_roles": [
+            "fact4_label",
+            "fact4_value",
+            "fact4_note"
+          ]
+        },
+        {
+          "role": "quick_footer",
+          "pct": 16,
+          "text_roles": [
+            "source_line",
+            "disclaimer_line",
+            "publish_time"
+          ]
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "fact5_label",
+            "fact5_value",
+            "fact5_note"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "fact6_note",
+            "fact7_note",
+            "fact6_label",
+            "fact7_label"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    }
+  }
+}

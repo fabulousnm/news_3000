@@ -1,0 +1,86 @@
+{
+  "version": "1.0",
+  "frozen_at": "2026-10-08",
+  "note": "三档由可计算计数定义，不由主观明显程度判断。生成后不调整。",
+
+  "variant_rules": {
+    "clean": {
+      "changed_field_count": [0, 0],
+      "rule_failure_count": [0, 0],
+      "description": "字段之间完全自洽，无任何内容不一致。"
+    },
+    "subtle": {
+      "changed_field_count": [1, 2],
+      "rule_failure_count": [1, 2],
+      "constraint": "不引发新的规则违反；仅局部数值、日期、称谓变化或单处删除。",
+      "description": "改动少且局部，画面仍为完全正常的版式设计。"
+    },
+    "strong": {
+      "changed_field_count_any_of": [[3, 99], [0, 99]],
+      "rule_failure_count_min": 2,
+      "constraint": "改动较多，或改动虽少但引发多处规则违反（含语义冲突与跨区不一致）。",
+      "description": "存在多处不一致或明显冲突，画面仍为正常的版式设计。"
+    }
+  },
+
+  "collateral_rule": "连带失败单列于 collateral_failure_count，不计入 rule_failure_count，避免单处改动引发多处崩塌被误算为多处独立异常。",
+
+  "shared_across_variants": [
+    "字段集合",
+    "分区标题",
+    "表头",
+    "静态说明文字",
+    "行数",
+    "载体",
+    "构图",
+    "配色",
+    "版式",
+    "画幅",
+    "视觉风格"
+  ],
+
+  "quality_grades": {
+    "note": "生成后由 OCR 实测得出；阈值在生成前冻结，生成后不调整。全部等级样本均保留。",
+    "A": {
+      "entity_hit_rate_min": 1.00,
+      "char_error_count_max": 0,
+      "extra_text_allowed": false,
+      "number_consistency_required": true,
+      "layout_anomaly_allowed": false
+    },
+    "B": {
+      "entity_hit_rate_min": 0.90,
+      "char_error_count_max": 2,
+      "number_consistency_required": true,
+      "layout_anomaly_allowed": true
+    },
+    "C": {
+      "entity_hit_rate_min": 0.50,
+      "note": "或存在数字一致性错误，或存在明显版式异常"
+    },
+    "D": {
+      "entity_hit_rate_max": 0.50,
+      "note": "或大面积乱码，或版面崩塌"
+    }
+  },
+
+  "text_density_thresholds": {
+    "note": "按 visible_text 字符数统计，密度为测量值，不强行填充无关文字。",
+    "cjk": {"Low": [0, 59], "Medium": [60, 199], "High": [200, 449], "VeryHigh": [450, 99999]},
+    "latin": {"Low": [0, 119], "Medium": [120, 399], "High": [400, 899], "VeryHigh": [900, 99999]}
+  },
+
+  "text_rendering_requirements": [
+    "所有中文、数字、日期、编号、小字均须清晰、完整、可辨认",
+    "不得使用乱码、伪汉字、无意义符号、随机字母或模糊占位符替代文字",
+    "不得省略、改写或擅自纠正任何给定的关键数字、日期、编号",
+    "除指定文字外不得添加其他可读文字（装饰性纹理除外）",
+    "小字不小于画面高度的 1.2%",
+    "表格必须呈现为完整规则的方框表格，行列对齐，每行数值与单位完整"
+  ],
+
+  "forbidden_visible_text": [
+    "AI", "AI生成", "AI-generated", "人工智能生成", "合成图", "Generated", "Synthetic",
+    "示例", "样例", "demo", "sample", "placeholder", "watermark", "水印"
+  ]
+}

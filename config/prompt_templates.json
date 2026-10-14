@@ -1,0 +1,82 @@
+{
+  "version": "1.0",
+  "note": "提示词按固定段落拼装，保证同组三档除关键文字外完全一致。{} 为占位符，由生成脚本填充。",
+
+  "prompt_sections": [
+    {
+      "id": "opening",
+      "order": 1,
+      "template": "生成一张{aspect_ratio}比例的{carrier_desc}，{carrier_scene}，{realism_desc}。"
+    },
+    {
+      "id": "visual_style",
+      "order": 2,
+      "template": "视觉风格：{visual_style_desc}；整体结构：{layout_structure}。画面是一张完整的独立图像，具有自然的{rendering_mode}文字渲染与专业信息层级。"
+    },
+    {
+      "id": "subject",
+      "order": 3,
+      "template": "主体为虚构媒体「{outlet_name}」的「{subject_title}」（{subject_kind}），涉及{region_desc}的{hazard_desc}话题。画面主体、机构、地名、人名均为虚构。"
+    },
+    {
+      "id": "content_blocks",
+      "order": 4,
+      "template": "{sections_rendered}"
+    },
+    {
+      "id": "realism_details",
+      "order": 5,
+      "template": "真实感细节：{realism_details}。所有文字区域依然必须清晰锐利、可逐字辨认。"
+    },
+    {
+      "id": "tamper_notice",
+      "order": 6,
+      "template": "本图为研究用样本：给定文字中的部分内容按研究设计包含不实、夸大、缺失或与其他位置不一致的信息。请严格按给定文字逐字呈现，不要自动纠正、补全或统一；不要用颜色、圈注、箭头、放大、删除线或任何警示标记突出这些内容，它们必须与周围文字保持相同的字体、字号和排版风格，使整张图看起来是一张完全正常的{normal_desc}。",
+      "applies_to": ["subtle", "strong"]
+    },
+    {
+      "id": "text_convention",
+      "order": 7,
+      "template": "本提示词中「」内的内容为必须逐字呈现的文字（「」符号本身不要画出），\u201c｜\u201d表示表格的列分隔。图中所有文字、数字、日期、编号与小字均必须清晰、完整、可辨认；不得使用乱码、伪汉字、无意义符号、随机英文字母或模糊占位符替代文字；不要省略指定文本，不要擅自改写、增删或\u201c纠正\u201d给出的任何关键数字、日期和编号；除指定文字外不要额外添加其他可读文字（装饰性纹理除外）。标题使用粗体，正文使用清晰的无衬线字体，小字不小于画面高度的1.2%。"
+    },
+    {
+      "id": "layout_fidelity",
+      "order": 8,
+      "template": "版面须严格遵循上述分区顺序与相对位置；{table_requirement}"
+    }
+  ],
+
+  "section_block_template": "【{section_name}】{text_items}",
+
+  "text_item_template": "「{text}」",
+
+  "table_requirement": "若出现表格，必须呈现为完整、规则的方框表格，行列对齐、每行数值与单位完整。",
+
+  "carrier_descriptions": {
+    "R1": "社交媒体平台的帖文截图",
+    "R2": "短视频平台的竖屏画面截帧",
+    "R3": "新闻媒体的版面图像",
+    "R4": "新闻机构发布的图文信息卡"
+  },
+
+  "realism_descriptions": {
+    "native_screenshot": "整体为手机原生素材截图质感，界面元素边缘锐利，无拍摄痕迹",
+    "photo_of_screen": "整体为手机翻拍屏幕的实拍质感，可见轻微的环境反光与约10度的透视倾斜，但不影响文字辨认",
+    "photo_of_print": "整体为手机翻拍印刷品的实拍质感，纸张有轻微纹理与柔和阴影，边缘略有透视变形",
+    "broadcast_capture": "整体为电视播出的画面截帧质感，具有广播级调色与轻微暗角",
+    "exported_graphic": "整体为设计软件导出的图像质感，背景干净，元素对齐精确"
+  },
+
+  "normal_descriptions": {
+    "R1": "社会媒体帖子",
+    "R2": "短视频画面",
+    "R3": "新闻版面",
+    "R4": "信息卡设计"
+  },
+
+  "forbidden_additions": [
+    "AI", "AI生成", "AI-generated", "人工智能生成", "合成图", "Generated", "Synthetic",
+    "示例", "样例", "demo", "sample", "placeholder", "watermark", "水印",
+    "研究用", "模拟", "虚构样本"
+  ]
+}

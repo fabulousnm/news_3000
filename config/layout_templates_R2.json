@@ -1,0 +1,503 @@
+{
+  "carrier": "R2",
+  "name_zh": "短视频平台竖屏图文",
+  "version": "1.0",
+  "layouts": {
+    "short_video_scene_frame": {
+      "platform_family": "short_video",
+      "sub_carrier": "scene_frame",
+      "name_zh": "现场类竖屏帧",
+      "aspect_ratio": "9:16",
+      "sections": [
+        {
+          "role": "status_bar",
+          "pct": 3,
+          "text_roles": [
+            "device_time",
+            "status_icons"
+          ]
+        },
+        {
+          "role": "scene",
+          "pct": 72,
+          "text_roles": [],
+          "note": "现场画面，可含场景内文字"
+        },
+        {
+          "role": "subtitle_overlay",
+          "pct": 9,
+          "text_roles": [
+            "subtitle_line1",
+            "subtitle_line2"
+          ]
+        },
+        {
+          "role": "right_rail",
+          "pct": 0,
+          "text_roles": [
+            "like_metric",
+            "comment_metric",
+            "save_metric",
+            "share_metric"
+          ],
+          "note": "右侧竖排，与 scene 叠放"
+        },
+        {
+          "role": "bottom_left",
+          "pct": 8,
+          "text_roles": [
+            "account_handle",
+            "caption_text"
+          ]
+        },
+        {
+          "role": "audio_strip",
+          "pct": 5,
+          "text_roles": [
+            "audio_name"
+          ]
+        },
+        {
+          "role": "progress_bar",
+          "pct": 3,
+          "text_roles": []
+        },
+        {
+          "role": "caption_note",
+          "pct": 0,
+          "text_roles": [
+            "note_line1",
+            "note_line2"
+          ],
+          "note": "画面内补充说明"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "note_line3",
+            "note_line4"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "note_line5",
+            "note_line6",
+            "note_line7"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "short_video_caption_narration": {
+      "platform_family": "short_video",
+      "sub_carrier": "caption_narration_frame",
+      "name_zh": "字幕解说型竖屏帧",
+      "aspect_ratio": "9:16",
+      "sections": [
+        {
+          "role": "status_bar",
+          "pct": 3,
+          "text_roles": [
+            "device_time",
+            "status_icons"
+          ]
+        },
+        {
+          "role": "scene",
+          "pct": 62,
+          "text_roles": []
+        },
+        {
+          "role": "top_banner",
+          "pct": 8,
+          "text_roles": [
+            "headline_banner"
+          ],
+          "note": "顶部大字标题"
+        },
+        {
+          "role": "subtitle_block",
+          "pct": 13,
+          "text_roles": [
+            "subtitle_line1",
+            "subtitle_line2",
+            "subtitle_line3"
+          ]
+        },
+        {
+          "role": "right_rail",
+          "pct": 0,
+          "text_roles": [
+            "like_metric",
+            "comment_metric",
+            "save_metric"
+          ]
+        },
+        {
+          "role": "bottom_left",
+          "pct": 8,
+          "text_roles": [
+            "account_handle",
+            "caption_text"
+          ]
+        },
+        {
+          "role": "audio_strip",
+          "pct": 6,
+          "text_roles": [
+            "audio_name",
+            "progress_label"
+          ]
+        },
+        {
+          "role": "narration_extra",
+          "pct": 0,
+          "text_roles": [
+            "narration_line3",
+            "narration_line4"
+          ],
+          "note": "解说续行"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "narration_line5",
+            "narration_line6"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "narration_line7",
+            "narration_line8",
+            "narration_line9"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "short_video_overlay_graphic": {
+      "platform_family": "short_video",
+      "sub_carrier": "overlay_graphic_frame",
+      "name_zh": "图文叠加型竖屏帧",
+      "aspect_ratio": "9:16",
+      "sections": [
+        {
+          "role": "status_bar",
+          "pct": 3,
+          "text_roles": [
+            "device_time",
+            "status_icons"
+          ]
+        },
+        {
+          "role": "scene",
+          "pct": 50,
+          "text_roles": []
+        },
+        {
+          "role": "overlay_panel",
+          "pct": 28,
+          "text_roles": [
+            "panel_title",
+            "panel_point1",
+            "panel_point2",
+            "panel_point3"
+          ],
+          "note": "半透明信息面板，覆盖在画面上"
+        },
+        {
+          "role": "subtitle_block",
+          "pct": 8,
+          "text_roles": [
+            "subtitle_line1"
+          ]
+        },
+        {
+          "role": "right_rail",
+          "pct": 0,
+          "text_roles": [
+            "like_metric",
+            "comment_metric"
+          ]
+        },
+        {
+          "role": "bottom_left",
+          "pct": 8,
+          "text_roles": [
+            "account_handle",
+            "caption_text"
+          ]
+        },
+        {
+          "role": "audio_strip",
+          "pct": 3,
+          "text_roles": [
+            "audio_name"
+          ]
+        },
+        {
+          "role": "panel_extra",
+          "pct": 0,
+          "text_roles": [
+            "panel_point4",
+            "panel_point5"
+          ],
+          "note": "面板补充要点"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "panel_point6",
+            "panel_point7"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "panel_point8",
+            "panel_point9",
+            "panel_point10"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "short_video_screen_in_screen": {
+      "platform_family": "short_video",
+      "sub_carrier": "screen_in_screen_frame",
+      "name_zh": "录制屏中屏帧",
+      "aspect_ratio": "9:16",
+      "sections": [
+        {
+          "role": "status_bar",
+          "pct": 4,
+          "text_roles": [
+            "device_time",
+            "status_icons"
+          ]
+        },
+        {
+          "role": "inner_screen",
+          "pct": 58,
+          "text_roles": [
+            "inner_header",
+            "inner_body_line1",
+            "inner_body_line2",
+            "inner_metric"
+          ],
+          "note": "内嵌的另一界面截图"
+        },
+        {
+          "role": "commentary_overlay",
+          "pct": 14,
+          "text_roles": [
+            "commentary_line1",
+            "commentary_line2"
+          ],
+          "note": "解说字幕，位于内屏上方或下方"
+        },
+        {
+          "role": "right_rail",
+          "pct": 0,
+          "text_roles": [
+            "like_metric",
+            "comment_metric"
+          ]
+        },
+        {
+          "role": "bottom_left",
+          "pct": 8,
+          "text_roles": [
+            "account_handle",
+            "caption_text"
+          ]
+        },
+        {
+          "role": "audio_strip",
+          "pct": 4,
+          "text_roles": [
+            "audio_name"
+          ]
+        },
+        {
+          "role": "live_badge",
+          "pct": 4,
+          "text_roles": [
+            "live_label"
+          ],
+          "note": "仅直播录制帧使用"
+        },
+        {
+          "role": "inner_extra",
+          "pct": 0,
+          "text_roles": [
+            "inner_body_line3",
+            "inner_body_line4"
+          ],
+          "note": "内屏续行"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "inner_body_line5",
+            "inner_body_line6"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "inner_body_line7",
+            "inner_body_line8",
+            "inner_body_line9"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "short_video_live_capture": {
+      "platform_family": "short_video",
+      "sub_carrier": "live_capture_frame",
+      "name_zh": "直播画面截帧",
+      "aspect_ratio": "9:16",
+      "sections": [
+        {
+          "role": "status_bar",
+          "pct": 3,
+          "text_roles": [
+            "device_time",
+            "status_icons"
+          ]
+        },
+        {
+          "role": "live_header",
+          "pct": 8,
+          "text_roles": [
+            "host_name",
+            "viewer_metric",
+            "live_label"
+          ]
+        },
+        {
+          "role": "scene",
+          "pct": 56,
+          "text_roles": []
+        },
+        {
+          "role": "danmaku_area",
+          "pct": 14,
+          "text_roles": [
+            "danmaku1",
+            "danmaku2",
+            "danmaku3"
+          ],
+          "note": "弹幕或评论滚动区"
+        },
+        {
+          "role": "subtitle_block",
+          "pct": 7,
+          "text_roles": [
+            "subtitle_line1"
+          ]
+        },
+        {
+          "role": "bottom_bar",
+          "pct": 8,
+          "text_roles": [
+            "input_placeholder",
+            "gift_label",
+            "share_metric"
+          ]
+        },
+        {
+          "role": "audio_strip",
+          "pct": 4,
+          "text_roles": [
+            "audio_name"
+          ]
+        },
+        {
+          "role": "danmaku_extra",
+          "pct": 0,
+          "text_roles": [
+            "danmaku4",
+            "danmaku5"
+          ],
+          "note": "弹幕续行"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "danmaku6",
+            "danmaku7"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "location_label"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "danmaku8",
+            "danmaku9",
+            "danmaku10"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,658 @@
+{
+  "carrier": "R3",
+  "name_zh": "新闻媒体版式",
+  "version": "1.0",
+  "layouts": {
+    "tv_broadcast": {
+      "platform_family": "news_media",
+      "sub_carrier": "tv_broadcast",
+      "name_zh": "电视新闻画面",
+      "aspect_ratio": "16:9",
+      "sections": [
+        {
+          "role": "channel_logo",
+          "pct": 0,
+          "text_roles": [
+            "channel_name"
+          ],
+          "note": "右上角，叠加于画面"
+        },
+        {
+          "role": "scene",
+          "pct": 78,
+          "text_roles": [],
+          "note": "新闻画面，可含场景内文字"
+        },
+        {
+          "role": "lower_third",
+          "pct": 14,
+          "text_roles": [
+            "segment_tag",
+            "headline",
+            "subheadline"
+          ]
+        },
+        {
+          "role": "ticker",
+          "pct": 8,
+          "text_roles": [
+            "ticker_text",
+            "ticker_time"
+          ]
+        },
+        {
+          "role": "detail_panel",
+          "pct": 0,
+          "text_roles": [
+            "detail_line1",
+            "detail_line2",
+            "detail_line3"
+          ],
+          "note": "屏幕信息面板"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "detail_line6",
+            "detail_line7"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "dateline"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "detail_line10",
+            "detail_line11",
+            "detail_line12"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "tv_breaking_interrupt": {
+      "platform_family": "news_media",
+      "sub_carrier": "tv_breaking_interrupt",
+      "name_zh": "电视突发插播画面",
+      "aspect_ratio": "16:9",
+      "sections": [
+        {
+          "role": "channel_logo",
+          "pct": 0,
+          "text_roles": [
+            "channel_name"
+          ]
+        },
+        {
+          "role": "breaking_banner",
+          "pct": 16,
+          "text_roles": [
+            "breaking_tag",
+            "breaking_headline"
+          ],
+          "note": "顶部或底部通栏，红色为主色"
+        },
+        {
+          "role": "scene",
+          "pct": 62,
+          "text_roles": []
+        },
+        {
+          "role": "detail_panel",
+          "pct": 14,
+          "text_roles": [
+            "detail_line1",
+            "detail_line2",
+            "detail_line3"
+          ]
+        },
+        {
+          "role": "ticker",
+          "pct": 8,
+          "text_roles": [
+            "ticker_text",
+            "ticker_time"
+          ]
+        },
+        {
+          "role": "secondary_detail",
+          "pct": 0,
+          "text_roles": [
+            "detail_line4",
+            "detail_line5"
+          ],
+          "note": "次要信息条目"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "detail_line8",
+            "detail_line9"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "dateline"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "detail_line13",
+            "detail_line14",
+            "detail_line15"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "newspaper_front_page": {
+      "platform_family": "news_media",
+      "sub_carrier": "newspaper_front_page",
+      "name_zh": "报纸头版",
+      "aspect_ratio": "3:4",
+      "sections": [
+        {
+          "role": "masthead",
+          "pct": 12,
+          "text_roles": [
+            "newspaper_name",
+            "date_line",
+            "edition_label",
+            "issue_number"
+          ]
+        },
+        {
+          "role": "lead_headline",
+          "pct": 14,
+          "text_roles": [
+            "lead_headline",
+            "lead_subheadline",
+            "byline"
+          ]
+        },
+        {
+          "role": "lead_photo",
+          "pct": 34,
+          "text_roles": [
+            "photo_caption"
+          ],
+          "note": "主图与图注"
+        },
+        {
+          "role": "body_columns",
+          "pct": 26,
+          "text_roles": [
+            "column_lead",
+            "column_body"
+          ]
+        },
+        {
+          "role": "sidebar",
+          "pct": 14,
+          "text_roles": [
+            "sidebar_title",
+            "sidebar_item1",
+            "sidebar_item2"
+          ]
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "column_body2",
+            "column_body3"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "dateline"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "column_body4",
+            "column_body5",
+            "column_body6"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "newspaper_inner_page": {
+      "platform_family": "news_media",
+      "sub_carrier": "newspaper_inner_page",
+      "name_zh": "报纸内页",
+      "aspect_ratio": "3:4",
+      "sections": [
+        {
+          "role": "running_head",
+          "pct": 7,
+          "text_roles": [
+            "section_name",
+            "page_number",
+            "date_line"
+          ]
+        },
+        {
+          "role": "article_headline",
+          "pct": 11,
+          "text_roles": [
+            "headline",
+            "subheadline",
+            "byline"
+          ]
+        },
+        {
+          "role": "body_columns",
+          "pct": 52,
+          "text_roles": [
+            "column1_body",
+            "column2_body",
+            "column3_body"
+          ]
+        },
+        {
+          "role": "inline_photo",
+          "pct": 20,
+          "text_roles": [
+            "photo_caption"
+          ]
+        },
+        {
+          "role": "footer_note",
+          "pct": 10,
+          "text_roles": [
+            "editor_note",
+            "contact_line"
+          ]
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "column4_body",
+            "column5_body"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "dateline"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "column6_body",
+            "column7_body",
+            "column8_body"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "news_site_home": {
+      "platform_family": "news_media",
+      "sub_carrier": "news_site_home",
+      "name_zh": "新闻网站首页",
+      "aspect_ratio": "16:10",
+      "sections": [
+        {
+          "role": "site_header",
+          "pct": 11,
+          "text_roles": [
+            "site_name",
+            "nav_item1",
+            "nav_item2",
+            "nav_item3",
+            "search_label"
+          ]
+        },
+        {
+          "role": "lead_story",
+          "pct": 38,
+          "text_roles": [
+            "lead_headline",
+            "lead_summary",
+            "lead_timestamp"
+          ]
+        },
+        {
+          "role": "secondary_stories",
+          "pct": 33,
+          "text_roles": [
+            "story1_headline",
+            "story1_timestamp",
+            "story2_headline",
+            "story2_timestamp",
+            "story3_headline",
+            "story3_timestamp"
+          ]
+        },
+        {
+          "role": "sidebar_list",
+          "pct": 18,
+          "text_roles": [
+            "sidebar_title",
+            "rank1",
+            "rank2",
+            "rank3",
+            "rank4"
+          ]
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "story4_headline",
+            "story4_timestamp",
+            "story5_headline",
+            "story5_timestamp"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "dateline"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "story6_headline",
+            "story6_timestamp",
+            "story7_headline",
+            "story7_timestamp"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "news_app_detail": {
+      "platform_family": "news_media",
+      "sub_carrier": "news_app_detail",
+      "name_zh": "新闻应用详情页",
+      "aspect_ratio": "9:16",
+      "sections": [
+        {
+          "role": "app_bar",
+          "pct": 7,
+          "text_roles": [
+            "back_label",
+            "app_name",
+            "share_label"
+          ]
+        },
+        {
+          "role": "headline_block",
+          "pct": 13,
+          "text_roles": [
+            "headline",
+            "subheadline"
+          ]
+        },
+        {
+          "role": "byline_block",
+          "pct": 8,
+          "text_roles": [
+            "publisher_name",
+            "publish_time",
+            "follow_label"
+          ]
+        },
+        {
+          "role": "lead_photo",
+          "pct": 32,
+          "text_roles": [
+            "photo_caption"
+          ]
+        },
+        {
+          "role": "article_body",
+          "pct": 28,
+          "text_roles": [
+            "paragraph1",
+            "paragraph2",
+            "quote_line"
+          ]
+        },
+        {
+          "role": "footer_action",
+          "pct": 12,
+          "text_roles": [
+            "source_note",
+            "comment_metric",
+            "share_metric"
+          ]
+        },
+        {
+          "role": "article_extra",
+          "pct": 0,
+          "text_roles": [
+            "paragraph3",
+            "paragraph4"
+          ],
+          "note": "正文续段"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "paragraph5",
+            "paragraph6"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "dateline"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "paragraph7",
+            "paragraph8",
+            "paragraph9"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "wire_bulletin": {
+      "platform_family": "news_media",
+      "sub_carrier": "wire_bulletin",
+      "name_zh": "通讯社电讯稿",
+      "aspect_ratio": "4:5",
+      "sections": [
+        {
+          "role": "wire_header",
+          "pct": 14,
+          "text_roles": [
+            "urgency_tag",
+            "agency_name",
+            "sequence_number",
+            "filing_time"
+          ]
+        },
+        {
+          "role": "slug_line",
+          "pct": 8,
+          "text_roles": [
+            "slug_text",
+            "dateline",
+            "priority_label"
+          ]
+        },
+        {
+          "role": "bulletin_body",
+          "pct": 56,
+          "text_roles": [
+            "paragraph1",
+            "paragraph2",
+            "paragraph3"
+          ]
+        },
+        {
+          "role": "attribution_block",
+          "pct": 12,
+          "text_roles": [
+            "source_attribution",
+            "editor_note"
+          ]
+        },
+        {
+          "role": "footer",
+          "pct": 10,
+          "text_roles": [
+            "transmission_note",
+            "page_ref"
+          ]
+        },
+        {
+          "role": "bulletin_extra",
+          "pct": 0,
+          "text_roles": [
+            "paragraph4",
+            "paragraph5"
+          ],
+          "note": "电讯续段"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "paragraph6",
+            "paragraph7"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "paragraph10",
+            "paragraph11",
+            "paragraph12"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    },
+    "news_brief_card": {
+      "platform_family": "news_media",
+      "sub_carrier": "news_brief_card",
+      "name_zh": "新闻简报卡片",
+      "aspect_ratio": "4:5",
+      "sections": [
+        {
+          "role": "card_header",
+          "pct": 10,
+          "text_roles": [
+            "brief_label",
+            "issue_label",
+            "brief_date"
+          ]
+        },
+        {
+          "role": "item_list",
+          "pct": 66,
+          "text_roles": [
+            "item1_title",
+            "item1_body",
+            "item2_title",
+            "item2_body",
+            "item3_title",
+            "item3_body"
+          ]
+        },
+        {
+          "role": "card_footer",
+          "pct": 14,
+          "text_roles": [
+            "compiler_note",
+            "source_line"
+          ]
+        },
+        {
+          "role": "brand_strip",
+          "pct": 10,
+          "text_roles": [
+            "outlet_name"
+          ]
+        },
+        {
+          "role": "item_extra",
+          "pct": 0,
+          "text_roles": [
+            "item4_title",
+            "item4_body"
+          ],
+          "note": "第四条简报"
+        },
+        {
+          "role": "body_extension",
+          "pct": 0,
+          "text_roles": [
+            "item5_title",
+            "item5_body"
+          ],
+          "note": "正文延伸区，承载更多可读文字"
+        },
+        {
+          "role": "location_line",
+          "pct": 0,
+          "text_roles": [
+            "dateline"
+          ],
+          "note": "地点标识行"
+        },
+        {
+          "role": "body_extension_2",
+          "pct": 0,
+          "text_roles": [
+            "item6_body",
+            "item7_body",
+            "item6_title",
+            "item7_title"
+          ],
+          "note": "正文延伸区"
+        }
+      ]
+    }
+  }
+}

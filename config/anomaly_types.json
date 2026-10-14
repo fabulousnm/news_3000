@@ -1,0 +1,62 @@
+{
+  "version": "1.0",
+  "frozen_at": "2026-10-08",
+
+  "content_anomaly_types": {
+    "note": "记录改动了哪一类内容。tamper_types 取值为下列编号对应键名。",
+    "T01": {"key": "account_identity", "name_zh": "账号主体信息", "detail": "名称、认证标记、简介等"},
+    "T02": {"key": "timestamp", "name_zh": "时间信息", "detail": "发布时间或事发时间"},
+    "T03": {"key": "location", "name_zh": "地点信息", "detail": "事发地点改动或张冠李戴"},
+    "T04": {"key": "metric", "name_zh": "互动数据", "detail": "点赞、转发、播放、浏览等"},
+    "T05": {"key": "headline_body_conflict", "name_zh": "标题与正文冲突", "detail": "标题所述与正文内容不一致"},
+    "T06": {"key": "image_text_conflict", "name_zh": "配图与文字不符", "detail": "画面场景与文字说明矛盾"},
+    "T07": {"key": "quotation", "name_zh": "引述内容", "detail": "改动或伪造引语"},
+    "T08": {"key": "attribution", "name_zh": "信息来源归属", "detail": "冒用或改动媒体、机构名义"},
+    "T09": {"key": "magnitude", "name_zh": "事件规模", "detail": "伤亡、损失、波及范围的夸大或缩小"},
+    "T10": {"key": "urgency", "name_zh": "紧迫性表述", "detail": "紧急、速转、必看等修饰"},
+    "T11": {"key": "causal_claim", "name_zh": "因果关系", "detail": "伪造因果链"},
+    "T12": {"key": "legal_consequence", "name_zh": "处置结果", "detail": "伪造处罚、判罚或处置结论"},
+    "T13": {"key": "official_statement", "name_zh": "官方表态", "detail": "伪造声明或回应"},
+    "T14": {"key": "recommendation", "name_zh": "处置建议", "detail": "伪造行动指引或防护建议"},
+    "T15": {"key": "number_internal", "name_zh": "文内数字一致性", "detail": "同一数字在不同位置不一致"},
+    "T16": {"key": "omission", "name_zh": "关键限定缺失", "detail": "缺失时间、范围、条件等限定信息"},
+    "T17": {"key": "sensitive_addition", "name_zh": "挑动性内容添加", "detail": "添加激化性表述"},
+    "T18": {"key": "media_identity", "name_zh": "媒体标识", "detail": "伪造台标、报头、频道名"}
+  },
+
+  "rule_violation_types": {
+    "note": "与内容类型并行记录，描述违反了哪一条一致性规则。anomaly_category 取值为下列键名。",
+    "date_order": {"name_zh": "日期先后矛盾", "basis": "dataset-designed inconsistency"},
+    "number_relation": {"name_zh": "数值关系矛盾", "basis": "dataset-designed inconsistency"},
+    "set_relation": {"name_zh": "集合与范围矛盾", "basis": "dataset-designed inconsistency"},
+    "unit_consistency": {"name_zh": "单位与量级不符", "basis": "dataset-designed inconsistency"},
+    "attribution_chain": {"name_zh": "信息链断裂或循环", "basis": "dataset-designed inconsistency"},
+    "subject_agreement": {"name_zh": "主语与所述行为不符", "basis": "dataset-designed inconsistency"},
+    "quantity_sum": {"name_zh": "分项与合计不等", "basis": "dataset-designed inconsistency"},
+    "temporal_window": {"name_zh": "时间落于不合理区间", "basis": "dataset-designed inconsistency"},
+    "geographic_plausibility": {"name_zh": "地点与事件类型不匹配", "basis": "dataset-designed inconsistency"},
+    "fixed_text": {"name_zh": "固定文案被改动", "basis": "dataset-designed inconsistency"}
+  },
+
+  "variant_anomaly_policy": {
+    "clean": {
+      "tamper_types": [],
+      "anomaly_category": [],
+      "changed_field_count": 0,
+      "rule_failure_count": 0,
+      "single_image_detectable": null
+    },
+    "subtle": {
+      "tamper_types_min": 1,
+      "anomaly_category_min": 1,
+      "single_image_detectable": true,
+      "note": "改动局部，单看该图即可发现不一致。"
+    },
+    "strong": {
+      "tamper_types_min": 2,
+      "anomaly_category_min": 2,
+      "single_image_detectable": true,
+      "note": "存在多处不一致或明显冲突。"
+    }
+  }
+}

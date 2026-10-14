@@ -1,0 +1,103 @@
+{
+  "version": "1.0",
+  "frozen_at": "2026-10-08",
+  "note": "配额在生成前冻结，生成后不依据结果回调。",
+  "total_groups": 1000,
+  "variants": ["clean", "subtle", "strong"],
+  "carriers": {
+    "R1": {
+      "name_zh": "社交平台帖文图文",
+      "name_en": "Social Post Graphic",
+      "groups": 300,
+      "sub_carriers": [
+        "text_only_post",
+        "image_post",
+        "grid_gallery_post",
+        "quote_repost",
+        "topic_aggregation",
+        "embedded_comment"
+      ]
+    },
+    "R2": {
+      "name_zh": "短视频平台竖屏图文",
+      "name_en": "Vertical Short-form Graphic",
+      "groups": 250,
+      "sub_carriers": [
+        "scene_frame",
+        "caption_narration_frame",
+        "overlay_graphic_frame",
+        "screen_in_screen_frame",
+        "live_capture_frame"
+      ]
+    },
+    "R3": {
+      "name_zh": "新闻媒体版式",
+      "name_en": "News Media Layout",
+      "groups": 250,
+      "sub_carriers": [
+        "tv_broadcast",
+        "tv_breaking_interrupt",
+        "newspaper_front_page",
+        "newspaper_inner_page",
+        "news_site_home",
+        "news_app_detail",
+        "wire_bulletin",
+        "news_brief_card"
+      ]
+    },
+    "R4": {
+      "name_zh": "图文信息卡",
+      "name_en": "Graphic Info Card",
+      "groups": 200,
+      "sub_carriers": [
+        "share_card",
+        "summary_long_image",
+        "topic_aggregation_long_image",
+        "timeline_image",
+        "quick_read_card"
+      ]
+    }
+  },
+  "regions": {
+    "CN": {"name_zh": "中国大陆", "language": "zh-Hans", "groups": 330},
+    "NA": {"name_zh": "北美", "language": "en", "groups": 180},
+    "UK": {"name_zh": "英国", "language": "en", "groups": 110},
+    "AU": {"name_zh": "澳大利亚", "language": "en", "groups": 70},
+    "TW": {"name_zh": "台湾", "language": "zh-Hant", "groups": 130},
+    "HK": {"name_zh": "香港", "language": "zh-Hant", "groups": 110},
+    "SG": {"name_zh": "新加坡", "language": "zh-Hans", "groups": 70}
+  },
+  "hazards": {
+    "H1": {"name_zh": "灾害与险情", "min_share": 0.0, "max_share": 0.20},
+    "H2": {"name_zh": "公共卫生", "min_share": 0.0, "max_share": 0.20},
+    "H3": {"name_zh": "政策与民生", "min_share": 0.0, "max_share": 0.20},
+    "H4": {"name_zh": "社会治安与案件", "min_share": 0.0, "max_share": 0.20},
+    "H5": {"name_zh": "经济与金融", "min_share": 0.0, "max_share": 0.20},
+    "H6": {"name_zh": "生活与健康认知", "min_share": 0.0, "max_share": 0.20},
+    "H7": {"name_zh": "涉外与国际关系", "min_share": 0.0, "max_share": 0.20},
+    "H8": {"name_zh": "人物与机构动态", "min_share": 0.0, "max_share": 0.20},
+    "H9": {"name_zh": "公共秩序与群体行为", "min_share": 0.0, "max_share": 0.20}
+  },
+  "hazard_constraints": {
+    "min_distinct_hazards_per_carrier": 5,
+    "core_group": ["H1", "H2", "H3", "H4"],
+    "core_group_min_share": 0.50,
+    "single_hazard_max_share": 0.20
+  },
+  "platform_families": {
+    "cn_social": {"name_zh": "中文社交", "examples": ["微博", "微信公众号文章页", "头条"]},
+    "en_social": {"name_zh": "英文社交", "examples": ["X", "Facebook", "Threads"]},
+    "image_social": {"name_zh": "图片社交", "examples": ["Instagram", "小红书", "Pinterest"]},
+    "short_video": {"name_zh": "短视频", "examples": ["抖音", "快手", "TikTok", "YouTube Shorts"]},
+    "news_media": {"name_zh": "通讯社与主流媒体", "examples": ["新华社", "央视", "人民日报", "路透", "美联", "BBC", "CNN"]}
+  },
+  "split": {
+    "policy": "按载体子类与语言分层；同组三档必须落于同一集合",
+    "ratios": {"train": 0.80, "validation": 0.10, "test": 0.10}
+  },
+  "region_coverage_rule": {
+    "min_distinct_regions_per_carrier": 4,
+    "required_languages_per_carrier": ["zh-Hans", "zh-Hant", "en"],
+    "note": "每个载体子类须覆盖至少 4 个地区，且三种语言均不得为空。"
+  }
+}
