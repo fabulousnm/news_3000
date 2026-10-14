@@ -36,6 +36,7 @@ REGION_NAMES = {
     "TW": "台湾地区", "HK": "香港地区", "SG": "新加坡",
 }
 HAZARD_NAMES = {k: v["name_zh"] for k, v in QUOTAS["hazards"].items()}
+VARIANT_ORDER = ("clean", "subtle", "strong", "fabricated")
 
 VISUAL_STYLE_BY_FAMILY = {
     "cn_social": "中文社交平台的界面风格，信息层级清晰，卡片式布局，圆角与浅灰分隔线",
@@ -82,11 +83,13 @@ def build_records(limit=None):
             "capture_style": "native_screenshot",
             "split": group["split"],
             "fictional_entity_note": "机构、媒体、地名、人名、编号均为虚构。",
-            "variants": ["clean", "subtle", "strong"],
+            "variants": list(VARIANT_ORDER),
+            "source_event_id": meta["real_event"]["event_id"],
+            "source_urls": [meta["real_event"]["source_url"]],
         }
         groups.append(group_record)
 
-        for variant in ("clean", "subtle", "strong"):
+        for variant in VARIANT_ORDER:
             rec = variants[variant]
             fields = rec["fields"]
             visible = collect_visible_text(fields)
@@ -135,6 +138,15 @@ def build_records(limit=None):
                 "rule_failure_count": rec["rule_failure_count"],
                 "collateral_failure_count": rec["collateral_failure_count"],
                 "single_image_detectable": rec["single_image_detectable"],
+                "truth_status": rec.get("truth_status", "true"),
+                "content_mode": rec.get(
+                    "content_mode",
+                    "real_true_news" if variant == "clean" else "real_news_with_internal_conflict",
+                ),
+                "source_event_id": meta["real_event"]["event_id"],
+                "source_title": meta["real_event"]["title_en" if group["language"] == "en" else "title_zh"],
+                "source_urls": [meta["real_event"]["source_url"]],
+                "fabrication_method": rec.get("fabrication_method", ""),
                 "fictional_entity_note": "机构、媒体、地名、人名、编号均为虚构。",
                 "prompt": prompt_text,
             })
@@ -155,7 +167,7 @@ def validate(groups, prompts):
     per_group = defaultdict(list)
     for p in prompts:
         per_group[p["group_id"]].append(p["variant"])
-    bad = [g for g, v in per_group.items() if sorted(v) != ["clean", "strong", "subtle"]]
+    bad = [g for g, v in per_group.items() if sorted(v) != sorted(VARIANT_ORDER)]
     report["checks"].append({
         "rule_id": "triplet_integrity",
         "status": "pass" if not bad else "fail",
@@ -168,8 +180,9 @@ def validate(groups, prompts):
     tier_fail = []
     for p in prompts:
         v, cc, rc = p["variant"], p["changed_field_count"], p["rule_failure_count"]
-        rule = VARIANT_RULES["variant_rules"][v]
         if v == "clean" and (cc or rc):
+            tier_fail.append(p["prompt_id"])
+        elif v == "fabricated" and (cc or rc):
             tier_fail.append(p["prompt_id"])
         elif v == "subtle" and not (1 <= cc <= 2 and 1 <= rc <= 2):
             tier_fail.append(p["prompt_id"])
@@ -223,6 +236,8 @@ def validate(groups, prompts):
         "groups": len(groups),
         "prompts": len(prompts),
         "by_variant": dict(Counter(p["variant"] for p in prompts)),
+        "by_truth_status": dict(Counter(p["truth_status"] for p in prompts)),
+        "by_content_mode": dict(Counter(p["content_mode"] for p in prompts)),
         "by_carrier": dict(Counter(p["carrier"] for p in prompts)),
         "by_region": dict(Counter(p["region"] for p in prompts)),
         "by_language": dict(Counter(p["language"] for p in prompts)),
@@ -251,7 +266,8 @@ def write_outputs(groups, prompts, report, out_dir):
             "aspect_ratio", "capture_style", "split", "text_density",
             "measured_char_count", "field_count", "changed_field_count",
             "rule_failure_count", "single_image_detectable",
-            "tamper_types", "anomaly_category"]
+            "truth_status", "content_mode", "source_event_id", "source_title",
+            "source_urls", "fabrication_method", "tamper_types", "anomaly_category"]
     with open(out_dir / "news_rumor_prompts_3000.csv", "w", encoding="utf-8", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
@@ -259,7 +275,10 @@ def write_outputs(groups, prompts, report, out_dir):
             row = dict(p)
             row["tamper_types"] = "|".join(p["tamper_types"])
             row["anomaly_category"] = "|".join(p["anomaly_category"])
+            row["source_urls"] = "|".join(p["source_urls"])
             w.writerow(row)
+
+    write_unified_csv(prompts, out_dir / "news_rumor_prompts_unified.csv")
 
     with open(out_dir / "qa_report.json", "w", encoding="utf-8") as fh:
         json.dump(report, fh, ensure_ascii=False, indent=1)
@@ -286,7 +305,14 @@ def write_outputs(groups, prompts, report, out_dir):
         "dataset": "news_rumor_prompts_3000",
         "version": "1.0",
         "frozen_at": "2026-10-08",
-        "counts": {"groups": len(groups), "prompts": len(prompts)},
+        "counts": {
+            "groups": len(groups),
+            "prompts": len(prompts),
+            "clean": sum(1 for p in prompts if p["variant"] == "clean"),
+            "subtle": sum(1 for p in prompts if p["variant"] == "subtle"),
+            "strong": sum(1 for p in prompts if p["variant"] == "strong"),
+            "fabricated": sum(1 for p in prompts if p["variant"] == "fabricated"),
+        },
         "prompts_sha256": stable_hash(prompts),
         "groups_sha256": stable_hash(groups),
         "frozen_quality_threshold_sha256": frozen_threshold_hash(),
@@ -296,6 +322,62 @@ def write_outputs(groups, prompts, report, out_dir):
     with open(out_dir / "release_manifest.json", "w", encoding="utf-8") as fh:
         json.dump(manifest, fh, ensure_ascii=False, indent=1)
     return manifest
+
+
+def write_unified_csv(prompts, out_path):
+    cols = [
+        "sample_id", "direction", "category_l1", "category_l2", "variant",
+        "aspect_ratio", "prompt", "group_id", "target_texts", "tamper_types",
+        "tamper_details", "extra_json",
+    ]
+    with open(out_path, "w", encoding="utf-8-sig", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=cols)
+        w.writeheader()
+        for i, p in enumerate(prompts, 1):
+            unified_variant = p["variant"] if p["variant"] in ("clean", "subtle", "strong") else "clean"
+            unified_aspect = "16:9" if p["aspect_ratio"] == "16:10" else p["aspect_ratio"]
+            details = []
+            for c in p["field_changes"]:
+                lbl = c["label"] or c["field"]
+                details.append(f"{lbl}: {c['base_value']} -> {c['value']}")
+            extra = {
+                "original_prompt_id": p["prompt_id"],
+                "original_variant": p["variant"],
+                "carrier": p["carrier"],
+                "sub_carrier": p["sub_carrier"],
+                "platform_family": p["platform_family"],
+                "layout_id": p["layout_id"],
+                "original_aspect_ratio": p["aspect_ratio"],
+                "region": p["region"],
+                "language": p["language"],
+                "hazard": p["hazard"],
+                "split": p["split"],
+                "text_density": p["text_density"],
+                "measured_char_count": p["measured_char_count"],
+                "truth_status": p["truth_status"],
+                "content_mode": p["content_mode"],
+                "source_event_id": p["source_event_id"],
+                "source_title": p["source_title"],
+                "source_urls": p["source_urls"],
+                "fabrication_method": p["fabrication_method"],
+                "changed_fields": p["changed_fields"],
+                "rule_failure_count": p["rule_failure_count"],
+                "single_image_detectable": p["single_image_detectable"],
+            }
+            w.writerow({
+                "sample_id": f"UI-{i:06d}",
+                "direction": "ui",
+                "category_l1": p["carrier"],
+                "category_l2": p["sub_carrier"],
+                "variant": unified_variant,
+                "aspect_ratio": unified_aspect,
+                "prompt": p["prompt"],
+                "group_id": f"UI-{p['group_id']}",
+                "target_texts": "|".join(t.replace("|", "｜") for t in p["visible_text"]),
+                "tamper_types": "|".join(p["tamper_types"]),
+                "tamper_details": "|".join(d.replace("|", "｜") for d in details),
+                "extra_json": json.dumps(extra, ensure_ascii=False, sort_keys=True),
+            })
 
 
 def main():

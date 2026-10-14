@@ -10,6 +10,7 @@ three variants share identical structure.
 
 from common import FICTION, rng_for
 from names import NameFactory
+from real_events import event_for
 from sentences import STATEMENTS, HEADLINE_VARIANTS, SHORT_LABELS
 
 # --------------------------------------------------------------------------
@@ -112,7 +113,8 @@ def build_base_content(group, layout):
 
     subjects = HAZARD_SUBJECTS[hazard]
     lang_key = "en" if language == "en" else ("zh-Hant" if language == "zh-Hant" else "zh-Hans")
-    subject_title = _pick(subjects.get(lang_key, subjects["zh-Hans"]), rng)
+    real_event = event_for(group)
+    subject_title = real_event["title_en"] if language == "en" else real_event["title_zh"]
 
     # Compositional naming: real city + fictional district, fictional outlet/org/person.
     nf = NameFactory(region, language, group["group_id"])
@@ -131,18 +133,23 @@ def build_base_content(group, layout):
     day = rng.randrange(1, 29)
     hh, mm = rng.randrange(0, 24), rng.randrange(0, 60)
     if language == "en":
-        date_str = f"{month}/{day}/{year}"
-        date_long = f"{month}/{day}/{year}"
+        date_str = real_event["date_en"]
+        date_long = real_event["date_en"]
+        place = real_event["place_en"]
+        institution = real_event["source_name"]
     else:
-        date_str = f"{year}年{month}月{day}日"
-        date_long = date_str
+        date_str = real_event["date"]
+        date_long = real_event["date"]
+        place = real_event["place_zh"]
+        institution = real_event["source_name"]
     time_str = f"{hh:02d}:{mm:02d}"
     seq = f"{year}{rng.randrange(1000, 9999)}"
     metric = rng.randrange(2, 980)
 
     # Build a pool of DISTINCT sentences so each layout slot gets fresh text.
+    facts_key = "facts_en" if language == "en" else "facts_zh"
+    pool = list(real_event[facts_key])
     raw = STATEMENTS[hazard].get(language) or STATEMENTS[hazard]["zh-Hans"]
-    pool = []
     for tpl in raw:
         pool.append(tpl.format(place=place, date=date_str, inst=institution,
                                person=person, subject=subject_title))
@@ -2425,6 +2432,9 @@ def build_base_content(group, layout):
         "date": date_long,
         "time": time_str,
         "sequence": seq,
+        "real_event": real_event,
+        "content_source_type": "real_world_news",
+        "truth_status": "true",
     }
     return fields, meta
 

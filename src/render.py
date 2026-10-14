@@ -9,7 +9,9 @@ sections are marked with 【】.
 
 from common import PROMPT_TEMPLATES, LAYOUTS
 from prompt_details import (CAPTURE_DETAIL, CARRIER_VISUAL, DENSITY_RULE,
-                            DENSITY_RULE_EN, TAIL_RULES)
+                            DENSITY_RULE_EN, TAIL_RULES, TYPOGRAPHY_DETAIL,
+                            TYPOGRAPHY_DETAIL_EN, UI_REPLICA_DETAIL,
+                            UI_REPLICA_DETAIL_EN)
 
 SECTION_NAMES = {
     "zh-Hans": {
@@ -620,7 +622,9 @@ TAIL_RULES_EN = (
     "Non-text content: image areas should show a photograph or interface capture consistent with "
     "the subject; no recognisable real faces, and no graphic, violent or distressing imagery. "
     "Consistency: text within one block must share a single typeface, size and colour; items at the "
-    "same level must use the same styling; leave appropriate spacing between values and units. "
+    "same level must use the same styling; leave appropriate spacing between values and units; "
+    "font sizes must follow real platform hierarchy and must not be enlarged randomly to fill space "
+    "or reduced until small text becomes unreadable. "
     "Prohibited: no readable text other than what appears in quotes above; no gibberish, "
     "pseudo-characters, meaningless symbols or placeholders; no watermarks, date stamps or camera "
     "parameter overlays beyond what a section specifies \u2014 platform identification given in a "
@@ -644,6 +648,9 @@ def build_prompt_en(group, layout, variant_record, carrier, capture_style):
         f"overall structure: {struct}. The image must read as one complete standalone graphic "
         f"with natural interface typography and a professional information hierarchy."
     )
+    ui_replica = UI_REPLICA_DETAIL_EN.get(group["layout_id"], "")
+    if ui_replica:
+        parts.append(ui_replica + ".")
     parts.append(
         f'A fictitious media outlet "{group["meta"]["outlet_name"]}" reporting on '
         f'"{group["meta"]["subject_title"]}" covering {HAZARD_EN.get(group["hazard"], "")} '
@@ -655,6 +662,9 @@ def build_prompt_en(group, layout, variant_record, carrier, capture_style):
         "Realism details: text edges are crisp, type sizes are hierarchical, and interface "
         "elements are aligned. Every text region must remain sharp and legible character by character."
     )
+    typography = TYPOGRAPHY_DETAIL_EN.get(group["platform_family"], "")
+    if typography:
+        parts.append(typography + ".")
     if variant_record["changed_fields"]:
         parts.append(
             "This image is a research specimen: by design, part of the given text contains "
@@ -732,6 +742,9 @@ def build_prompt(group, layout, variant_record, carrier_desc, realism_desc,
         f"视觉风格：{visual_style_desc}；整体结构：{render_layout_structure(layout, language)}。"
         f"画面是一张完整的独立图像，具有自然的界面文字渲染与专业信息层级。"
     )
+    ui_replica = UI_REPLICA_DETAIL.get(group["layout_id"], "")
+    if ui_replica:
+        parts.append(ui_replica + "。")
     parts.append(subject_line)
     parts.append(sections_rendered)
 
@@ -742,6 +755,10 @@ def build_prompt(group, layout, variant_record, carrier_desc, realism_desc,
     visual = CARRIER_VISUAL.get(group["carrier"], "")
     if visual:
         parts.append(f"配色与排版细节：{visual}。")
+
+    typography = TYPOGRAPHY_DETAIL.get(group["platform_family"], "")
+    if typography:
+        parts.append(f"字体与字号规范：{typography}。")
 
     # ---- layout proportions -------------------------------------------
     props = [f"{_section_name(sec['role'], language)}({sec['pct']}%)"
@@ -761,7 +778,8 @@ def build_prompt(group, layout, variant_record, carrier_desc, realism_desc,
     parts.append(
         "真实感细节：文字区域边缘清晰，字号层级分明，界面元素对齐整齐；"
         "文字须具备真实的渲染质量，笔画完整、无粘连、无重影，"
-        "小字不小于画面高度的1.2%；所有文字区域依然必须清晰锐利、可逐字辨认。"
+        "小字不小于画面高度的1.2%，但也不得把元信息小字放大到接近正文；"
+        "所有文字区域依然必须清晰锐利、可逐字辨认。"
     )
 
     # ---- tampered-sample notice ---------------------------------------
@@ -780,7 +798,8 @@ def build_prompt(group, layout, variant_record, carrier_desc, realism_desc,
         "「｜」表示表格的列分隔，仅用于表格类内容，不要在正文中画出该符号。"
         "图中所有文字、数字、日期、编号与小字均必须清晰、完整、可辨认，"
         "且须与指定的字符完全一致。"
-        "标题使用粗体，正文使用清晰的无衬线字体，数值与单位之间保留适当间距。"
+        "标题使用对应平台的真实标题字重，正文使用对应平台的真实正文字号与字重，"
+        "数值与单位之间保留适当间距。"
     )
     parts.append(
         "版面须严格遵循上述分区顺序与相对位置；"

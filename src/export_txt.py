@@ -45,7 +45,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import common  # noqa: E402
 from common import QUOTAS, build_plan  # noqa: E402
 
-VARIANTS = ("clean", "subtle", "strong")
+VARIANTS = ("clean", "subtle", "strong", "fabricated")
 
 REGION_NAMES = {"CN": "中国大陆", "NA": "北美地区", "UK": "英国",
                 "AU": "澳大利亚", "TW": "台湾地区", "HK": "香港地区", "SG": "新加坡"}
@@ -167,7 +167,16 @@ def build_records(limit=None, scale=1, with_fields=False):
                 "changed_field_count": rec["changed_field_count"],
                 "rule_failure_count": rec["rule_failure_count"],
                 "collateral_failure_count": rec["collateral_failure_count"],
-                "single_image_detectable": rec["single_image_detectable"],
+            "single_image_detectable": rec["single_image_detectable"],
+            "truth_status": rec.get("truth_status", "true"),
+            "content_mode": rec.get(
+                "content_mode",
+                "real_true_news" if variant == "clean" else "real_news_with_internal_conflict",
+            ),
+            "source_event_id": meta["real_event"]["event_id"],
+            "source_title": meta["real_event"]["title_en" if group["language"] == "en" else "title_zh"],
+            "source_urls": [meta["real_event"]["source_url"]],
+            "fabrication_method": rec.get("fabrication_method", ""),
                 "prompt": text,
             }
             if with_fields:
@@ -200,6 +209,8 @@ def metadata_lines(i, r, with_fields=False, index=True):
                f" | hazard: {r['hazard']} {HAZARD_NAMES.get(r['hazard'], '')}")
     out.append(f"# density: {r['text_density']} ({r['measured_char_count']} chars, "
                f"{r['density_unit']}) | fields: {r['field_count']} | split: {r['split']}")
+    out.append(f"# content: {r.get('content_mode', '')} | truth: {r.get('truth_status', '')}"
+               f" | source_event: {r.get('source_event_id', '')}")
 
     if r["tamper_types"]:
         types = ", ".join(f"{t}({ANOMALY_LABELS.get(t, t)})" for t in r["tamper_types"])
@@ -216,6 +227,8 @@ def metadata_lines(i, r, with_fields=False, index=True):
     else:
         out.append("# tamper: none")
         out.append("# single_image_detectable: null")
+    if r.get("fabrication_method"):
+        out.append(f"# fabrication: {r['fabrication_method']}")
 
     if with_fields:
         out.append("# visible_text (应当出现的逐字文字):")
@@ -264,12 +277,12 @@ def main():
     args = ap.parse_args()
 
     if args.target:
-        if args.target % 3:
-            sys.exit("--target must be a multiple of 3 (three variants per group)")
-        groups_needed = args.target // 3
+        if args.target % len(VARIANTS):
+            sys.exit(f"--target must be a multiple of {len(VARIANTS)} ({len(VARIANTS)} variants per group)")
+        groups_needed = args.target // len(VARIANTS)
         base_groups = QUOTAS["total_groups"]
         if groups_needed % base_groups:
-            sys.exit(f"--target must be a multiple of {base_groups * 3} "
+            sys.exit(f"--target must be a multiple of {base_groups * len(VARIANTS)} "
                      f"(the base design has {base_groups} groups)")
         scale = groups_needed // base_groups
     else:
@@ -295,7 +308,7 @@ def main():
 
     size = Path(out_path).stat().st_size
     print(f"records : {len(records)}")
-    print(f"groups  : {len(records) // 3}")
+    print(f"groups  : {len(records) // len(VARIANTS)}")
     print(f"scale   : {scale}x")
     print(f"mode    : {mode}")
     print(f"output  : {out_path}")

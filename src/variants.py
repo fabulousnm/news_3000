@@ -69,6 +69,20 @@ SUBTLE_MUTATIONS = ["timestamp_shift", "metric_inflate", "attribution_swap", "om
 STRONG_MUTATIONS = ["headline_conflict", "magnitude_boost", "urgency_insert", "official_fabricate",
                     "location_swap", "identity_swap", "legal_fabricate"]
 
+FALSE_BODY_ROLES = {
+    "body_text", "body_1", "body_2", "paragraph1", "paragraph2", "paragraph3",
+    "lead_summary", "lead_body", "caption_text", "summary_line1", "summary_line2",
+    "column_lead", "column_body", "article_body", "item1_body", "point1_body",
+    "conclusion_body", "quote_line", "ticker_text", "detail_line1", "panel_point1",
+    "subtitle_line1", "inner_body_line1", "commentary_line1", "danmaku1",
+}
+
+FALSE_TITLE_ROLES = {
+    "headline", "headline_banner", "lead_headline", "article_headline",
+    "topic_title", "summary_title", "card_topic", "panel_title", "item1_title",
+    "case1_title", "timeline_title", "breaking_headline",
+}
+
 
 def _find(fields, roles):
     present = {f["key"]: f for f in fields}
@@ -259,4 +273,34 @@ def derive_variants(base_fields, meta, group):
             "collateral_failure_count": 0,
             "single_image_detectable": True,
         }
+
+    false_claim = meta.get("real_event", {}).get(
+        "false_claim_en" if language == "en" else "false_claim_zh",
+        "A self-consistent but fabricated claim is presented as if it were true."
+    )
+    false_title = (
+        "Unverified online claim spreads after official update"
+        if language == "en" else "网传消息引发关注"
+    )
+    fabricated_fields = [dict(f) for f in base_fields]
+    for f in fabricated_fields:
+        key = f["key"]
+        if key in FALSE_TITLE_ROLES and f.get("value"):
+            f["value"] = false_title
+        elif key in FALSE_BODY_ROLES and f.get("value"):
+            f["value"] = false_claim
+    results["fabricated"] = {
+        "fields": fabricated_fields,
+        "changed_fields": [],
+        "field_changes": [],
+        "tamper_types": [],
+        "anomaly_category": [],
+        "changed_field_count": 0,
+        "rule_failure_count": 0,
+        "collateral_failure_count": 0,
+        "single_image_detectable": None,
+        "truth_status": "false",
+        "content_mode": "fabricated_rumor_self_consistent",
+        "fabrication_method": "false_claim_substitution",
+    }
     return results

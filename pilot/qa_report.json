@@ -9,7 +9,7 @@
   {
    "rule_id": "variant_tier_definition",
    "status": "pass",
-   "detail": "360 prompts checked"
+   "detail": "480 prompts checked"
   },
   {
    "rule_id": "group_structural_consistency",
@@ -29,41 +29,51 @@
  ],
  "stats": {
   "groups": 120,
-  "prompts": 360,
+  "prompts": 480,
   "by_variant": {
    "clean": 120,
    "subtle": 120,
-   "strong": 120
+   "strong": 120,
+   "fabricated": 120
+  },
+  "by_truth_status": {
+   "true": 360,
+   "false": 120
+  },
+  "by_content_mode": {
+   "real_true_news": 120,
+   "real_news_with_internal_conflict": 240,
+   "fabricated_rumor_self_consistent": 120
   },
   "by_carrier": {
-   "R1": 360
+   "R1": 480
   },
   "by_region": {
-   "CN": 297,
-   "NA": 63
+   "CN": 396,
+   "NA": 84
   },
   "by_language": {
-   "zh-Hans": 297,
-   "en": 63
+   "zh-Hans": 396,
+   "en": 84
   },
   "by_hazard": {
-   "H3": 60,
-   "H2": 54,
-   "H5": 36,
-   "H1": 45,
-   "H7": 30,
-   "H8": 36,
-   "H6": 24,
-   "H4": 54,
-   "H9": 21
+   "H3": 80,
+   "H2": 72,
+   "H5": 48,
+   "H1": 60,
+   "H7": 40,
+   "H8": 48,
+   "H6": 32,
+   "H4": 72,
+   "H9": 28
   },
   "by_split": {
-   "train": 351,
-   "validation": 9
+   "train": 468,
+   "validation": 12
   },
   "by_density": {
-   "High": 298,
-   "Medium": 61,
+   "High": 401,
+   "Medium": 78,
    "VeryHigh": 1
   },
   "tamper_type_counts": {

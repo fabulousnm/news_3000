@@ -13,6 +13,7 @@ from common import CONSTRAINTS, LAYOUTS, QUOTAS, VARIANT_RULES, stable_hash  # n
 TRACKED = [
     "final/news_rumor_prompts_3000.jsonl",
     "final/news_rumor_prompts_3000.csv",
+    "final/news_rumor_prompts_unified.csv",
     "final/groups.jsonl",
     "final/qa_report.json",
     "config/quotas.json",
@@ -62,6 +63,7 @@ def write_manifest():
             "clean": sum(1 for p in prompts if p["variant"] == "clean"),
             "subtle": sum(1 for p in prompts if p["variant"] == "subtle"),
             "strong": sum(1 for p in prompts if p["variant"] == "strong"),
+            "fabricated": sum(1 for p in prompts if p["variant"] == "fabricated"),
         },
         "prompts_sha256": stable_hash(prompts),
         "groups_sha256": stable_hash(groups),

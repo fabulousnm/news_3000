@@ -15,6 +15,7 @@ sys.path.insert(0, str(BASE_DIR / "src"))
 from common import QUOTAS, VARIANT_RULES  # noqa: E402
 
 FINAL = BASE_DIR / "final"
+VARIANTS = ["clean", "fabricated", "strong", "subtle"]
 
 
 def load():
@@ -27,7 +28,7 @@ def load():
 def test_counts():
     groups, prompts = load()
     assert len(groups) == QUOTAS["total_groups"], len(groups)
-    assert len(prompts) == QUOTAS["total_groups"] * 3
+    assert len(prompts) == QUOTAS["total_groups"] * 4
     for cid, spec in QUOTAS["carriers"].items():
         n = sum(1 for g in groups if g["carrier"] == cid)
         assert n == spec["groups"], f"{cid}: {n} != {spec['groups']}"
@@ -39,7 +40,7 @@ def test_triplets():
     for p in prompts:
         per[p["group_id"]].append(p["variant"])
     for gid, vs in per.items():
-        assert sorted(vs) == ["clean", "strong", "subtle"], gid
+        assert sorted(vs) == VARIANTS, gid
 
 
 def test_variant_tiers():
@@ -47,6 +48,8 @@ def test_variant_tiers():
     for p in prompts:
         cc, rc, v = p["changed_field_count"], p["rule_failure_count"], p["variant"]
         if v == "clean":
+            assert cc == 0 and rc == 0, p["prompt_id"]
+        elif v == "fabricated":
             assert cc == 0 and rc == 0, p["prompt_id"]
         elif v == "subtle":
             assert 1 <= cc <= 2 and 1 <= rc <= 2, p["prompt_id"]
@@ -102,7 +105,7 @@ def test_forbidden_text():
 def test_changed_fields_traceable():
     _, prompts = load()
     for p in prompts:
-        if p["variant"] == "clean":
+        if p["variant"] in ("clean", "fabricated"):
             assert p["changed_fields"] == [] and p["field_changes"] == []
             continue
         declared = {c["field"] for c in p["field_changes"]}
@@ -116,6 +119,21 @@ def test_prompt_self_contained():
     for p in prompts:
         assert len(p["prompt"]) > 400, p["prompt_id"]
         assert "「" in p["prompt"] or '"' in p["prompt"], p["prompt_id"]
+
+
+def test_truth_modes():
+    _, prompts = load()
+    per = defaultdict(list)
+    for p in prompts:
+        per[p["group_id"]].append(p)
+    for gid, items in per.items():
+        true_items = [p for p in items if p["truth_status"] == "true"]
+        false_items = [p for p in items if p["truth_status"] == "false"]
+        assert len(true_items) == 3, gid
+        assert len(false_items) == 1, gid
+        assert false_items[0]["variant"] == "fabricated", gid
+        assert false_items[0]["content_mode"] == "fabricated_rumor_self_consistent", gid
+        assert all(p["source_urls"] for p in items), gid
 
 
 def test_language_region_quota():
