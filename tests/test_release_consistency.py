@@ -13,6 +13,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR / "src"))
 
 from common import QUOTAS, VARIANT_RULES  # noqa: E402
+from ui_prompt_modes import (  # noqa: E402
+    TEMPLATE_COMPLETION_GUIDANCE, template_completion_guidance,
+)
 
 FINAL = BASE_DIR / "final"
 VARIANTS = ["clean", "fabricated", "strong", "subtle"]
@@ -141,6 +144,20 @@ def test_interaction_metrics_have_meaningful_labels():
         for key, (zh, en) in expected.items():
             if key in keys:
                 assert (zh if p["language"] != "en" else en) in p["prompt"], (p["prompt_id"], key)
+
+
+def test_each_ui_template_has_specific_completion_instructions():
+    template_files = {p.name for p in (FINAL / "ui_reference_templates").glob("*.png")}
+    assert set(TEMPLATE_COMPLETION_GUIDANCE) == template_files
+    _, prompts = load()
+    for p in prompts:
+        if p.get("ui_prompt_mode") != "image_text":
+            continue
+        template = p.get("ui_reference_template")
+        assert template in TEMPLATE_COMPLETION_GUIDANCE, (p["prompt_id"], template)
+        assert "水印" in p["prompt"] if p["language"] != "en" else "watermarks" in p["prompt"], p["prompt_id"]
+        specific = template_completion_guidance({"file": template}, p["language"])
+        assert specific in p["prompt"], p["prompt_id"]
 
 
 def test_reference_url_fallback_instruction():

@@ -31,6 +31,10 @@ Reusable UI reference images generated from the screenshots in `E:/Repos/picture
 | cnn-desktop-article.png | CNN 网页端新闻详情 |
 
 These are visual references, not pixel-exact captures. AI editing can introduce small deviations or stray text; review a template before using it as a strict visual target. Original source screenshots remain untouched.
+
+## Image+text placeholder completion
+
+The image+text prompt mode includes per-template instructions for filling semantic placeholders while preserving platform chrome. Text skeletons use the supplied headline, body, labels, and metrics; media slots receive topic-matched fictional editorial imagery; avatars and follow/subscribe controls are completed only where that template contains them. The prompts explicitly preserve backgrounds, dividers, icons, navigation, and control shapes, and tell the model to ignore image-generator watermarks and other post-production overlays. A gray region is not automatically treated as an image slot: each template has its own rules for media, text, comments, lists, and sidebars.
 | wechat-mobile-feed.png | 微信公众号移动端多帖封面首页 |
 
 ## Prompt-mode allocation
