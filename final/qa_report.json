@@ -7,6 +7,34 @@
    "detail": "1000 groups checked"
   },
   {
+   "rule_id": "ui_prompt_mode_group_consistency",
+   "status": "pass",
+   "detail": "all variants share their group's prompt mode"
+  },
+  {
+   "rule_id": "ui_prompt_mode_reference_ratio",
+   "status": "pass",
+   "detail": {
+    "eligible_groups": 621,
+    "actual": {
+     "image_text": 373,
+     "long_quantified": 186,
+     "short_text": 62
+    },
+    "expected": {
+     "image_text": 373,
+     "long_quantified": 186,
+     "short_text": 62
+    },
+    "note": "full release allocation"
+   }
+  },
+  {
+   "rule_id": "ui_prompt_reference_present",
+   "status": "pass",
+   "detail": "all image-led and short-text modes have a reference asset"
+  },
+  {
    "rule_id": "variant_tier_definition",
    "status": "pass",
    "detail": "4000 prompts checked"
@@ -75,6 +103,17 @@
    "H6": 356,
    "H4": 552,
    "H9": 380
+  },
+  "by_ui_prompt_mode": {
+   "short_text": 248,
+   "image_text": 1492,
+   "long_quantified": 2260
+  },
+  "ui_reference_backed_groups": 621,
+  "by_ui_prompt_mode_on_reference_groups": {
+   "image_text": 373,
+   "long_quantified": 186,
+   "short_text": 62
   },
   "by_split": {
    "train": 3200,

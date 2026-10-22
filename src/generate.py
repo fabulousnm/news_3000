@@ -30,6 +30,9 @@ from common import (  # noqa: E402
 from content import build_base_content  # noqa: E402
 from render import build_prompt, build_prompt_en  # noqa: E402
 from variants import derive_variants  # noqa: E402
+from ui_prompt_modes import (  # noqa: E402
+    assign_prompt_modes, build_reference_prompt, reference_for,
+)
 
 REGION_NAMES = {
     "CN": "中国内地", "NA": "北美地区", "UK": "英国", "AU": "澳大利亚",
@@ -49,6 +52,9 @@ VISUAL_STYLE_BY_FAMILY = {
 
 def build_records(limit=None):
     plan = build_plan()
+    # Assign modes over the full frozen plan so a pilot subset keeps the same
+    # per-group decisions as the eventual full release.
+    prompt_modes = assign_prompt_modes(plan)
     if limit:
         plan = plan[:limit]
 
@@ -86,6 +92,7 @@ def build_records(limit=None):
             "variants": list(VARIANT_ORDER),
             "source_event_id": meta["real_event"]["event_id"],
             "source_urls": [meta["real_event"]["source_url"]],
+            "ui_prompt_mode": prompt_modes.get(group["group_id"], "long_quantified"),
         }
         groups.append(group_record)
 
@@ -106,6 +113,14 @@ def build_records(limit=None):
             else:
                 prompt_text = build_prompt(
                     group, layout, rec, carrier_desc, realism_desc, normal_desc, visual_style_desc
+                )
+
+            ui_mode = prompt_modes.get(group["group_id"])
+            available_reference = reference_for(group) if ui_mode else None
+            ui_reference = available_reference
+            if ui_mode in ("image_text", "short_text") and available_reference:
+                prompt_text = build_reference_prompt(
+                    group, fields, available_reference, group["language"], ui_mode
                 )
 
             prompt_id = f"{group['group_id']}-{variant}"
@@ -148,6 +163,10 @@ def build_records(limit=None):
                 "source_urls": [meta["real_event"]["source_url"]],
                 "fabrication_method": rec.get("fabrication_method", ""),
                 "fictional_entity_note": "机构、媒体、地名、人名、编号均为虚构。",
+                "ui_prompt_mode": ui_mode or "long_quantified",
+                "ui_reference_image": ui_reference["image"] if ui_mode == "image_text" and ui_reference else "",
+                "ui_reference_template": ui_reference["file"] if ui_reference else "",
+                "ui_reference_url": ui_reference["url"] if ui_reference else "",
                 "prompt": prompt_text,
             })
 
@@ -175,6 +194,50 @@ def validate(groups, prompts):
     })
     if bad:
         report["errors"].append({"rule": "triplet_integrity", "detail": bad[:10]})
+
+    ui_by_group = {}
+    for p in prompts:
+        ui_by_group[p["group_id"]] = (p.get("ui_prompt_mode", "long_quantified"),
+                                       bool(p.get("ui_reference_image")))
+    ui_inconsistent = []
+    for gid in per_group:
+        rows = [p for p in prompts if p["group_id"] == gid]
+        if len({p.get("ui_prompt_mode", "long_quantified") for p in rows}) > 1:
+            ui_inconsistent.append(gid)
+    report["checks"].append({
+        "rule_id": "ui_prompt_mode_group_consistency",
+        "status": "pass" if not ui_inconsistent else "fail",
+        "detail": ui_inconsistent[:10] or "all variants share their group's prompt mode",
+    })
+    missing_ref = [p["prompt_id"] for p in prompts
+                   if p.get("ui_prompt_mode") == "image_text"
+                   and not p.get("ui_reference_image")]
+    ref_groups = {p["group_id"] for p in prompts if p.get("ui_reference_template")}
+    ref_modes = Counter(ui_by_group[g][0] for g in ref_groups)
+    expected_ref_modes = {
+        "image_text": round(len(ref_groups) * 0.60),
+        "long_quantified": round(len(ref_groups) * 0.30),
+    }
+    expected_ref_modes["short_text"] = len(ref_groups) - sum(expected_ref_modes.values())
+    mode_ratio_ok = all(ref_modes[m] == n for m, n in expected_ref_modes.items())
+    allocation_is_full_release = len(groups) == QUOTAS["total_groups"]
+    report["checks"].append({
+        "rule_id": "ui_prompt_mode_reference_ratio",
+        "status": ("pass" if mode_ratio_ok else "fail") if allocation_is_full_release else "skip",
+        "detail": {"eligible_groups": len(ref_groups), "actual": dict(ref_modes),
+                   "expected": expected_ref_modes,
+                   "note": "ratio is checked on full releases; pilots retain full-plan group assignments"
+                           if not allocation_is_full_release else "full release allocation"},
+    })
+    if allocation_is_full_release and not mode_ratio_ok:
+        report["errors"].append({"rule": "ui_prompt_mode_reference_ratio",
+                                 "detail": {"actual": dict(ref_modes), "expected": expected_ref_modes}})
+
+    report["checks"].append({
+        "rule_id": "ui_prompt_reference_present",
+        "status": "pass" if not missing_ref else "fail",
+        "detail": missing_ref[:10] or "all image-led and short-text modes have a reference asset",
+    })
 
     # Variant tier definitions
     tier_fail = []
@@ -242,6 +305,9 @@ def validate(groups, prompts):
         "by_region": dict(Counter(p["region"] for p in prompts)),
         "by_language": dict(Counter(p["language"] for p in prompts)),
         "by_hazard": dict(Counter(p["hazard"] for p in prompts)),
+        "by_ui_prompt_mode": dict(Counter(p.get("ui_prompt_mode", "long_quantified") for p in prompts)),
+        "ui_reference_backed_groups": len(ref_groups),
+        "by_ui_prompt_mode_on_reference_groups": dict(ref_modes),
         "by_split": dict(Counter(p["split"] for p in prompts)),
         "by_density": dict(Counter(p["text_density"] for p in prompts)),
         "tamper_type_counts": dict(Counter(
@@ -252,6 +318,13 @@ def validate(groups, prompts):
 
 def write_outputs(groups, prompts, report, out_dir):
     out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Keep the plain-text release synchronized with the exact prompt strings
+    # written to JSONL/CSV, including UI prompt modes and reference fallbacks.
+    from export_txt import export as export_prompts_txt
+    export_prompts_txt(
+        prompts, out_dir / f"news_rumor_prompts_{len(prompts)}.txt", mode="full-meta"
+    )
 
     with open(out_dir / "news_rumor_prompts_3000.jsonl", "w", encoding="utf-8") as fh:
         for p in prompts:
@@ -359,6 +432,10 @@ def write_unified_csv(prompts, out_path):
                 "source_event_id": p["source_event_id"],
                 "source_title": p["source_title"],
                 "source_urls": p["source_urls"],
+                "ui_prompt_mode": p.get("ui_prompt_mode", "long_quantified"),
+                "ui_reference_image": p.get("ui_reference_image", ""),
+                "ui_reference_template": p.get("ui_reference_template", ""),
+                "ui_reference_url": p.get("ui_reference_url", ""),
                 "fabrication_method": p["fabrication_method"],
                 "changed_fields": p["changed_fields"],
                 "rule_failure_count": p["rule_failure_count"],

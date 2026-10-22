@@ -45,7 +45,9 @@ jobs:
           hits = []
           for p in prompts:
               for b in banned:
-                  if b in p["prompt"]:
+                  # Platform/brand names are expected in UI imitation
+                  # instructions; only prohibit them as depicted copy.
+                  if any(b in text for text in p.get("visible_text", [])):
                       hits.append((p["prompt_id"], b))
           if hits:
               print("banned identifier found:", hits[:5])

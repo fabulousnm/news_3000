@@ -10,8 +10,8 @@
   "strong": 1000,
   "fabricated": 1000
  },
- "prompts_sha256": "23aa40b041933280182b5ebf4a88fe95742671ca5e85ecd6355479afa42de2bf",
- "groups_sha256": "66c75ad743952a1c21e658ba88e5477a4a52343a7ce3af5d949bd16c06347078",
+ "prompts_sha256": "ce75775a861f88b0e9d774111b9a7b0f2c46889d037710bffd0fc5bbecb2474c",
+ "groups_sha256": "c8746bd38127ddba323b7d7bf08b6d451c4852899bd209ba3cd65da55ad49b65",
  "frozen_quality_threshold_sha256": "f9bee6205e4a96c2ca443c6d644f435802ef6a1888471becf3cc059bfb4de723",
  "quota_config_sha256": "26a3039dfff404cc2b1a61762554900fe5ac1c82e14247b0c1e8abd9feeb30cc",
  "note": "配额、档位定义与质量分级阈值均在生成前冻结。"

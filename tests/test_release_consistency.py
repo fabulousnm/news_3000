@@ -117,8 +117,24 @@ def test_changed_fields_traceable():
 def test_prompt_self_contained():
     _, prompts = load()
     for p in prompts:
-        assert len(p["prompt"]) > 400, p["prompt_id"]
-        assert "「" in p["prompt"] or '"' in p["prompt"], p["prompt_id"]
+        minimum = 100 if p.get("ui_prompt_mode") in ("image_text", "short_text") else 400
+        assert len(p["prompt"]) > minimum, p["prompt_id"]
+        assert p["source_title"] in p["prompt"], p["prompt_id"]
+
+
+def test_reference_url_fallback_instruction():
+    _, prompts = load()
+    for p in prompts:
+        if p.get("ui_prompt_mode") != "image_text":
+            continue
+        url = p.get("ui_reference_url", "")
+        if url:
+            heading = "Reference page: " if p["language"] == "en" else "参考网页："
+            expected = f"{heading}{url}\n若无法访问该网站，则忽略此网址"
+            assert expected in p["prompt"], p["prompt_id"]
+        else:
+            assert "参考网页：" not in p["prompt"], p["prompt_id"]
+            assert "Reference page:" not in p["prompt"], p["prompt_id"]
 
 
 def test_truth_modes():

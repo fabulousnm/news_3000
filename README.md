@@ -331,7 +331,7 @@ python3 src/export_txt.py --target 30000
 **按空行切分即可还原为独立记录**：
 
 ```python
-text = open("final/news_rumor_prompts_3000.txt", encoding="utf-8").read()
+text = open("final/news_rumor_prompts_4000.txt", encoding="utf-8").read()
 blocks = [b for b in text.split("\n\n") if b.strip()]
 for b in blocks:
     lines = b.split("\n")

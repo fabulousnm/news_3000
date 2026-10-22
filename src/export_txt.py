@@ -211,6 +211,12 @@ def metadata_lines(i, r, with_fields=False, index=True):
                f"{r['density_unit']}) | fields: {r['field_count']} | split: {r['split']}")
     out.append(f"# content: {r.get('content_mode', '')} | truth: {r.get('truth_status', '')}"
                f" | source_event: {r.get('source_event_id', '')}")
+    if r.get("ui_prompt_mode"):
+        out.append(f"# UI prompt mode: {r['ui_prompt_mode']}")
+    if r.get("ui_reference_image"):
+        out.append(f"# UI reference attachment: {r['ui_reference_image']}")
+    if r.get("ui_reference_url"):
+        out.append(f"# UI reference URL: {r['ui_reference_url']}")
 
     if r["tamper_types"]:
         types = ", ".join(f"{t}({ANOMALY_LABELS.get(t, t)})" for t in r["tamper_types"])
