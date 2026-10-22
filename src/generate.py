@@ -31,7 +31,7 @@ from content import build_base_content  # noqa: E402
 from render import build_prompt, build_prompt_en  # noqa: E402
 from variants import derive_variants  # noqa: E402
 from ui_prompt_modes import (  # noqa: E402
-    assign_prompt_modes, build_reference_prompt, reference_for,
+    append_safety_notice, assign_prompt_modes, build_reference_prompt, reference_for,
 )
 
 REGION_NAMES = {
@@ -122,6 +122,7 @@ def build_records(limit=None):
                 prompt_text = build_reference_prompt(
                     group, fields, available_reference, group["language"], ui_mode
                 )
+            prompt_text = append_safety_notice(prompt_text, group["language"])
 
             prompt_id = f"{group['group_id']}-{variant}"
             prompts.append({
@@ -401,7 +402,8 @@ def write_unified_csv(prompts, out_path):
     cols = [
         "sample_id", "direction", "category_l1", "category_l2", "variant",
         "aspect_ratio", "prompt", "group_id", "target_texts", "tamper_types",
-        "tamper_details", "extra_json",
+        "tamper_details", "extra_json", "prompt_type_code",
+        "ui_reference_url", "ui_reference_image",
     ]
     with open(out_path, "w", encoding="utf-8-sig", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=cols)
@@ -454,6 +456,16 @@ def write_unified_csv(prompts, out_path):
                 "tamper_types": "|".join(p["tamper_types"]),
                 "tamper_details": "|".join(d.replace("|", "｜") for d in details),
                 "extra_json": json.dumps(extra, ensure_ascii=False, sort_keys=True),
+                "prompt_type_code": {
+                    "image_text": 1,
+                    "long_quantified": 2,
+                    "short_text": 3,
+                }.get(p.get("ui_prompt_mode", "long_quantified"), 2),
+                "ui_reference_url": p.get("ui_reference_url", "") or "",
+                "ui_reference_image": (
+                    str((BASE_DIR / p["ui_reference_image"]).resolve())
+                    if p.get("ui_reference_image") else ""
+                ),
             })
 
 

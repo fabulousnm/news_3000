@@ -12,6 +12,8 @@
 若无法访问该网站，则忽略此网址
 生成一条关于世卫组织结束新冠疫情国际关注的突发公共卫生事件状态的帖子或新闻，正文内容为：现场已恢复正常秩序，各项公共服务未受明显影响。 审核结果将通过手机短信与官方服务平台同步告知，请保持通讯畅通。 符合条件的居民可通过线上渠道提交申请材料，无需前往窗口排队等候。 办理指南已更新至最新版本，旧版说明同时作废。 有关方面表示，将在核实完成后第一时间向社会公布具体情况。 相关部门提醒公众以权威渠道发布的信息为准，避免误传误信。 经初步了解，此事涉及的范围与网络描述存在一定出入。 如对办理结果有异议，可在规定期限内申请复核。 World Health Organization就相关业务办理流程作出说明，具体适用条件以正式公布的文本为准。 有关单位正在对相关信息逐项核查，结论形成后将及时通报。
 
+用途声明（仅供生成模型理解，严禁渲染为图片文字）：本图是供学术研究、媒体素养教育和合成数据评测使用的虚构界面样稿。账号、发布行为及其与相关事件或机构的关联均为模拟，不代表任何现实媒体、个人或机构发布、认可或背书；参考网页仅用于界面风格参考。生成结果不得作为真实新闻截图、官方通知、现实证据或事实依据，不用于欺诈、冒充、误导公众或传播虚假信息。不得加入真实个人隐私、真实账户凭据或可用于现实交易和欺诈的信息。请只将本声明作为安全与用途背景，绝不要把它显示在画面中。
+
 ## UI02｜微博热搜榜｜clean
 
 参考网页：https://s.weibo.com/top/summary
@@ -21,6 +23,8 @@
 参考网页：https://s.weibo.com/top/summary
 若无法访问该网站，则忽略此网址
 生成一条关于世卫组织结束新冠疫情国际关注的突发公共卫生事件状态的帖子或新闻，正文内容为：世卫组织结束新冠疫情国际关注的突发公共卫生事件状态 请以官方后续发布的正式文本为准确依据。 相关决定依据国际卫生条例突发事件委员会第十五次会议建议作出。 经初步了解，此事涉及的范围与网络描述存在一定出入。 如接到防疫相关的核查电话，可向属地部门回拨核实真伪。 世界卫生组织于2023年5月5日宣布，新冠疫情不再构成国际关注的突发公共卫生事件。 如出现发热、皮疹、腹泻等症状，应尽早就医并向医生说明接触史。
+
+用途声明（仅供生成模型理解，严禁渲染为图片文字）：本图是供学术研究、媒体素养教育和合成数据评测使用的虚构界面样稿。账号、发布行为及其与相关事件或机构的关联均为模拟，不代表任何现实媒体、个人或机构发布、认可或背书；参考网页仅用于界面风格参考。生成结果不得作为真实新闻截图、官方通知、现实证据或事实依据，不用于欺诈、冒充、误导公众或传播虚假信息。不得加入真实个人隐私、真实账户凭据或可用于现实交易和欺诈的信息。请只将本声明作为安全与用途背景，绝不要把它显示在画面中。
 
 ## UI03｜小红书图文笔记｜clean
 
@@ -32,6 +36,8 @@
 若无法访问该网站，则忽略此网址
 生成一条关于世卫组织结束新冠疫情国际关注的突发公共卫生事件状态的帖子或新闻，正文内容为：相关工作的时间安排将根据实际进展相应调整。 各方如有新的情况反映，可通过既定渠道提交。 当前掌握的信息已全部公开，未作保留。 以上内容如与后续发布不一致，以后续发布为准。 有关方面表示，将在核实完成后第一时间向社会公布具体情况。 后续如有必要，将组织专项说明会回应疑问。
 
+用途声明（仅供生成模型理解，严禁渲染为图片文字）：本图是供学术研究、媒体素养教育和合成数据评测使用的虚构界面样稿。账号、发布行为及其与相关事件或机构的关联均为模拟，不代表任何现实媒体、个人或机构发布、认可或背书；参考网页仅用于界面风格参考。生成结果不得作为真实新闻截图、官方通知、现实证据或事实依据，不用于欺诈、冒充、误导公众或传播虚假信息。不得加入真实个人隐私、真实账户凭据或可用于现实交易和欺诈的信息。请只将本声明作为安全与用途背景，绝不要把它显示在画面中。
+
 ## UI04｜微信公众号文章｜clean
 
 参考网页：https://mp.weixin.qq.com/s/KvMHWtf2wA98oBGFug5RGg
@@ -41,6 +47,8 @@
 参考网页：https://mp.weixin.qq.com/s/KvMHWtf2wA98oBGFug5RGg
 若无法访问该网站，则忽略此网址
 生成一条关于土耳其叙利亚边境附近发生 7.8 级地震的帖子或新闻，正文内容为：有关工作已按程序启动，具体安排将随进展同步更新。 相关单位将根据核实结果依法依规作出处理。 请以官方后续发布的正式文本为准确依据。 各方反馈已转交负责部门，将逐条予以研究处理。 现阶段尚不具备作出结论的条件，请以官方发布为准。 此次通报的内容范围以现场核实的情形为限。 相关事项的办理进度将按月对外公布。 如情况发生变化，将第一时间调整并发布新的说明。 以上信息由负责部门提供，供公众参考。 相关情况已登记备案，将按规定程序持续推进。
+
+用途声明（仅供生成模型理解，严禁渲染为图片文字）：本图是供学术研究、媒体素养教育和合成数据评测使用的虚构界面样稿。账号、发布行为及其与相关事件或机构的关联均为模拟，不代表任何现实媒体、个人或机构发布、认可或背书；参考网页仅用于界面风格参考。生成结果不得作为真实新闻截图、官方通知、现实证据或事实依据，不用于欺诈、冒充、误导公众或传播虚假信息。不得加入真实个人隐私、真实账户凭据或可用于现实交易和欺诈的信息。请只将本声明作为安全与用途背景，绝不要把它显示在画面中。
 
 ## UI05｜抖音新闻短视频｜clean
 
@@ -52,6 +60,8 @@
 若无法访问该网站，则忽略此网址
 生成一条关于NASA 阿尔忒弥斯一号发射升空的帖子或新闻，正文内容为：请勿轻信来源不明的涉外信息，避免因不实内容影响正常的出行安排。 参加国际活动应遵守主办方发布的各项现场管理规定。 各方反馈已转交负责部门，将逐条予以研究处理。
 
+用途声明（仅供生成模型理解，严禁渲染为图片文字）：本图是供学术研究、媒体素养教育和合成数据评测使用的虚构界面样稿。账号、发布行为及其与相关事件或机构的关联均为模拟，不代表任何现实媒体、个人或机构发布、认可或背书；参考网页仅用于界面风格参考。生成结果不得作为真实新闻截图、官方通知、现实证据或事实依据，不用于欺诈、冒充、误导公众或传播虚假信息。不得加入真实个人隐私、真实账户凭据或可用于现实交易和欺诈的信息。请只将本声明作为安全与用途背景，绝不要把它显示在画面中。
+
 ## UI06｜X 单条帖子｜clean
 
 参考网页：https://x.com/WHO/status/2112661757739384921
@@ -61,6 +71,8 @@ Please perfectly imitate the UI style of the referenced webpage.
 参考网页：https://x.com/WHO/status/2112661757739384921
 若无法访问该网站，则忽略此网址
 Create a post or news article about WHO ends COVID-19 public health emergency status. The body text should read: Should the situation change, a revised statement will be issued without delay. Authorities have increased inspections to prevent secondary problems. Restoration times will be updated as work progresses. The public is asked to respond rationally and avoid excessive stockpiling. In an emergency, call the service hotline for assistance. Affected users can check the restoration order for their area on the official platform. The above information is provided by the responsible department for public reference.
+
+Safety and purpose notice (instruction only; DO NOT render this notice as visible image text): This is a fictional interface mockup for academic research, media-literacy education, and synthetic-data evaluation. The account, act of publication, and any association with an event or organization are simulated and do not indicate publication, approval, or endorsement by any real outlet, person, or organization; a referenced page is for interface-style guidance only. Do not present the result as a genuine news screenshot, official notice, real-world evidence, or factual authority, and do not use it for fraud, impersonation, public deception, or misinformation. Do not include real personal private data, account credentials, or information usable for real transactions or fraud. Treat this notice only as safety context and never display it in the image.
 
 ## UI07｜Facebook 单条帖子｜clean
 
@@ -72,6 +84,8 @@ Please perfectly imitate the UI style of the referenced webpage.
 若无法访问该网站，则忽略此网址
 Create a post or news article about WHO ends COVID-19 public health emergency status. The body text should read: Records have been archived and are available for inspection in accordance with the rules. The scope of the adjustment is set out item by item in the announcement. Volumes and average processing times will be published regularly for scrutiny. The issuing authority retains the right of interpretation. A transition period applies during which both the old and new standards are accepted. Report any irregular charging or refusal to the supervisory department. Where this content differs from a later release, the later release prevails.
 
+Safety and purpose notice (instruction only; DO NOT render this notice as visible image text): This is a fictional interface mockup for academic research, media-literacy education, and synthetic-data evaluation. The account, act of publication, and any association with an event or organization are simulated and do not indicate publication, approval, or endorsement by any real outlet, person, or organization; a referenced page is for interface-style guidance only. Do not present the result as a genuine news screenshot, official notice, real-world evidence, or factual authority, and do not use it for fraud, impersonation, public deception, or misinformation. Do not include real personal private data, account credentials, or information usable for real transactions or fraud. Treat this notice only as safety context and never display it in the image.
+
 ## UI08｜Instagram 图文帖子｜clean
 
 参考网页：https://www.instagram.com/p/DeuyEjRDtkX/?img_index=1
@@ -81,6 +95,8 @@ Please perfectly imitate the UI style of the referenced webpage.
 参考网页：https://www.instagram.com/p/DeuyEjRDtkX/?img_index=1
 若无法访问该网站，则忽略此网址
 Create a post or news article about Magnitude 7.8 earthquake strikes near the Türkiye-Syria border. The body text should read: Conditions at present do not permit a conclusion; rely on official releases. Please treat the formal text published later by official channels as the authoritative basis. Feedback from all parties has been passed to the responsible department for individual review. Should the situation change, a revised statement will be issued without delay. The authority has now explained the matter publicly and will not repeat the statement. Affected users may apply to the local authority regarding compensation.
+
+Safety and purpose notice (instruction only; DO NOT render this notice as visible image text): This is a fictional interface mockup for academic research, media-literacy education, and synthetic-data evaluation. The account, act of publication, and any association with an event or organization are simulated and do not indicate publication, approval, or endorsement by any real outlet, person, or organization; a referenced page is for interface-style guidance only. Do not present the result as a genuine news screenshot, official notice, real-world evidence, or factual authority, and do not use it for fraud, impersonation, public deception, or misinformation. Do not include real personal private data, account credentials, or information usable for real transactions or fraud. Treat this notice only as safety context and never display it in the image.
 
 ## UI09｜YouTube 新闻视频｜clean
 
@@ -92,6 +108,8 @@ Please perfectly imitate the UI style of the referenced webpage.
 若无法访问该网站，则忽略此网址
 Create a post or news article about Magnitude 7.8 earthquake strikes near the Türkiye-Syria border. The body text should read: The issuing authority retains the right of interpretation. Review outcomes will be communicated by message and on the official platform. The above information is provided by the responsible department for public reference.
 
+Safety and purpose notice (instruction only; DO NOT render this notice as visible image text): This is a fictional interface mockup for academic research, media-literacy education, and synthetic-data evaluation. The account, act of publication, and any association with an event or organization are simulated and do not indicate publication, approval, or endorsement by any real outlet, person, or organization; a referenced page is for interface-style guidance only. Do not present the result as a genuine news screenshot, official notice, real-world evidence, or factual authority, and do not use it for fraud, impersonation, public deception, or misinformation. Do not include real personal private data, account credentials, or information usable for real transactions or fraud. Treat this notice only as safety context and never display it in the image.
+
 ## UI10｜新华社新闻详情｜clean
 
 参考网页：https://www.news.cn/photo/20261019/1d55f96b64504b6b9f1bfbae7b05b700/c.html
@@ -101,6 +119,8 @@ Create a post or news article about Magnitude 7.8 earthquake strikes near the T�
 参考网页：https://www.news.cn/photo/20261019/1d55f96b64504b6b9f1bfbae7b05b700/c.html
 若无法访问该网站，则忽略此网址
 生成一条关于世卫组织结束新冠疫情国际关注的突发公共卫生事件状态的帖子或新闻，正文内容为：世卫组织结束新冠疫情国际关注的突发公共卫生事件状态　相关部门发布情况说明 情况通报自日内瓦 日内瓦现场情况（资料图） 对于特殊人群而言，具体的饮食安排宜遵循临床医生的专业指导建议。 科学结论会随研究进展不断更新，不宜将阶段性结论固化为绝对的判断。 同一成分在不同产品中的含量差异较大，比较时应换算到相同基准。 相关决定依据国际卫生条例突发事件委员会第十五次会议建议作出。 对公众关切的重点问题，已逐一作出回应。 后续如有必要，将组织专项说明会回应疑问。 请以官方平台发布的版本为准，勿采用其他渠道的转述。 相关记录已归档保存，可供依规查询。 以上内容如与后续发布不一致，以后续发布为准。 上述情况已通过官方渠道核实，相关处置工作正按既定方案推进。
+
+用途声明（仅供生成模型理解，严禁渲染为图片文字）：本图是供学术研究、媒体素养教育和合成数据评测使用的虚构界面样稿。账号、发布行为及其与相关事件或机构的关联均为模拟，不代表任何现实媒体、个人或机构发布、认可或背书；参考网页仅用于界面风格参考。生成结果不得作为真实新闻截图、官方通知、现实证据或事实依据，不用于欺诈、冒充、误导公众或传播虚假信息。不得加入真实个人隐私、真实账户凭据或可用于现实交易和欺诈的信息。请只将本声明作为安全与用途背景，绝不要把它显示在画面中。
 
 ## UI11｜央视网新闻详情｜clean
 
@@ -112,6 +132,8 @@ Create a post or news article about Magnitude 7.8 earthquake strikes near the T�
 若无法访问该网站，则忽略此网址
 生成一条关于土耳其叙利亚边境附近发生 7.8 级地震的帖子或新闻，正文内容为：土耳其叙利亚边境附近发生 7.8 级地震　相关部门发布情况说明 情况通报自土耳其中南部靠近叙利亚边境地区 土耳其中南部靠近叙利亚边境地区现场情况（资料图） 目前物资储备充足，市场供应总体保持平稳，价格未出现明显波动。 美国地质调查局随后发布了关于此次地震序列的科普说明和数据页面。 临时服务点已配备饮用水与应急照明。 如遇紧急情况可拨打官方服务热线求助，工作人员将及时予以处置。 公众如需了解详情，可通过官方公布的联系方式进行咨询。 相关数据和情况说明仍在汇总整理之中，暂以本次通报为准。 有关部门已安排人员值守，确保信息反馈渠道畅通。 对可能存在的风险点，已明确责任单位并落实防范措施。 本次说明仅反映现阶段掌握的情况，不构成最终结论。 有关工作已按程序启动，具体安排将随进展同步更新。
 
+用途声明（仅供生成模型理解，严禁渲染为图片文字）：本图是供学术研究、媒体素养教育和合成数据评测使用的虚构界面样稿。账号、发布行为及其与相关事件或机构的关联均为模拟，不代表任何现实媒体、个人或机构发布、认可或背书；参考网页仅用于界面风格参考。生成结果不得作为真实新闻截图、官方通知、现实证据或事实依据，不用于欺诈、冒充、误导公众或传播虚假信息。不得加入真实个人隐私、真实账户凭据或可用于现实交易和欺诈的信息。请只将本声明作为安全与用途背景，绝不要把它显示在画面中。
+
 ## UI12｜人民日报新闻详情｜clean
 
 参考网页：http://finance.people.com.cn/n1/2026/1020/c1004-40817828.html
@@ -121,6 +143,8 @@ Create a post or news article about Magnitude 7.8 earthquake strikes near the T�
 参考网页：http://finance.people.com.cn/n1/2026/1020/c1004-40817828.html
 若无法访问该网站，则忽略此网址
 生成一条关于NASA 阿尔忒弥斯一号发射升空的帖子或新闻，正文内容为：NASA 阿尔忒弥斯一号发射升空　相关部门发布情况说明 情况通报自佛罗里达州肯尼迪航天中心 佛罗里达州肯尼迪航天中心现场情况（资料图） 阿尔忒弥斯一号是对深空探索系统的首次综合飞行测试。 在境外使用网络服务时，注意遵守当地相关规定。 涉外事务的相关信息以主管机关对外发布的内容为唯一有效依据。 相关部门提醒旅客注意目的地的安全形势、天气状况与应急联系方式。 相关情况已登记备案，将按规定程序持续推进。 有关部门已就此事向公众作出说明，后续不再重复发布。 各方如有新的情况反映，可通过既定渠道提交。 当前掌握的信息已全部公开，未作保留。 相关工作的时间安排将根据实际进展相应调整。 有关说明的适用范围以本次发布的内容为准。
+
+用途声明（仅供生成模型理解，严禁渲染为图片文字）：本图是供学术研究、媒体素养教育和合成数据评测使用的虚构界面样稿。账号、发布行为及其与相关事件或机构的关联均为模拟，不代表任何现实媒体、个人或机构发布、认可或背书；参考网页仅用于界面风格参考。生成结果不得作为真实新闻截图、官方通知、现实证据或事实依据，不用于欺诈、冒充、误导公众或传播虚假信息。不得加入真实个人隐私、真实账户凭据或可用于现实交易和欺诈的信息。请只将本声明作为安全与用途背景，绝不要把它显示在画面中。
 
 ## UI13｜Reuters 世界新闻频道｜clean
 
@@ -132,6 +156,8 @@ Please perfectly imitate the UI style of the referenced webpage.
 若无法访问该网站，则忽略此网址
 Create a post or news article about NASA launches Artemis I mission. The body text should read: Home News Local Nasa Launches Artemis I Mission: officials issue update Regulators warn against illegal fundraising offered under the guise of high returns. November 16, 2022 11:53 NASA launches Artemis I mission: next steps confirmed NASA launches Artemis I mission: local response measures activated NASA launches Artemis I mission: authoritative answers Most read NASA launches Artemis I mission: relevant circumstances explained NASA launches Artemis I mission: key questions answered Members of the public seeking details may use the officially published contact methods. Any new information from any party may be submitted through the established channel.
 
+Safety and purpose notice (instruction only; DO NOT render this notice as visible image text): This is a fictional interface mockup for academic research, media-literacy education, and synthetic-data evaluation. The account, act of publication, and any association with an event or organization are simulated and do not indicate publication, approval, or endorsement by any real outlet, person, or organization; a referenced page is for interface-style guidance only. Do not present the result as a genuine news screenshot, official notice, real-world evidence, or factual authority, and do not use it for fraud, impersonation, public deception, or misinformation. Do not include real personal private data, account credentials, or information usable for real transactions or fraud. Treat this notice only as safety context and never display it in the image.
+
 ## UI14｜Reuters 通讯社稿件｜clean
 
 参考网页：https://www.reuters.com/world/middle-east/iran-says-saudi-arabia-houthis-have-not-answered-mediation-offer-2026-10-20/
@@ -141,6 +167,8 @@ Please perfectly imitate the UI style of the referenced webpage.
 参考网页：https://www.reuters.com/world/middle-east/iran-says-saudi-arabia-houthis-have-not-answered-mediation-offer-2026-10-20/
 若无法访问该网站，则忽略此网址
 Create a post or news article about WHO ends COVID-19 public health emergency status. The body text should read: Repair work avoids night hours to limit disruption to residents' rest. After power returns, check appliances for moisture before reconnecting them. Temporary service points will be set up during the repair period. Where this content differs from a later release, the later release prevails. The above has been verified through official channels and response work is proceeding as planned. The local authority has formed a dedicated working group to handle follow-up and release information. Officials said details will be published as soon as verification is complete. A dedicated line has been opened for urgent needs of specialised industrial users. WHO also said COVID-19 remained an established and ongoing public health issue requiring long-term management. Please follow on-site staff guidance during repairs and avoid lingering in work zones.
+
+Safety and purpose notice (instruction only; DO NOT render this notice as visible image text): This is a fictional interface mockup for academic research, media-literacy education, and synthetic-data evaluation. The account, act of publication, and any association with an event or organization are simulated and do not indicate publication, approval, or endorsement by any real outlet, person, or organization; a referenced page is for interface-style guidance only. Do not present the result as a genuine news screenshot, official notice, real-world evidence, or factual authority, and do not use it for fraud, impersonation, public deception, or misinformation. Do not include real personal private data, account credentials, or information usable for real transactions or fraud. Treat this notice only as safety context and never display it in the image.
 
 ## UI15｜AP News 新闻详情｜clean
 
@@ -152,6 +180,8 @@ Please perfectly imitate the UI style of the referenced webpage.
 若无法访问该网站，则忽略此网址
 Create a post or news article about Magnitude 7.8 earthquake strikes near the Türkiye-Syria border. The body text should read: Magnitude 7.8 Earthquake Strikes Near The Türkiye-Syria Border: officials issue update Reporting from south-central Türkiye near the Syrian border Scene in south-central Türkiye near the Syrian border (file photo) A priority channel is open for special groups with community assistance. Arrangements during the transition period will be announced separately. A transition period applies during which both the old and new standards are accepted. Adjusted service hours for processing counters have been published. Authorities advise relying on official channels to avoid spreading unverified information. Preliminary findings indicate the scope differs somewhat from the online description. Order at the scene has been restored and public services remain largely unaffected. The relevant unit is verifying the information item by item and will report once conclusions are reached. The arrangement has been announced on the official platform; the published text governs the details. Any further developments will continue to be released through the same channels.
 
+Safety and purpose notice (instruction only; DO NOT render this notice as visible image text): This is a fictional interface mockup for academic research, media-literacy education, and synthetic-data evaluation. The account, act of publication, and any association with an event or organization are simulated and do not indicate publication, approval, or endorsement by any real outlet, person, or organization; a referenced page is for interface-style guidance only. Do not present the result as a genuine news screenshot, official notice, real-world evidence, or factual authority, and do not use it for fraud, impersonation, public deception, or misinformation. Do not include real personal private data, account credentials, or information usable for real transactions or fraud. Treat this notice only as safety context and never display it in the image.
+
 ## UI16｜BBC News 新闻详情｜clean
 
 参考网页：https://www.bbc.com/news/articles/cr3el70jz1nqo
@@ -161,6 +191,8 @@ Please perfectly imitate the UI style of the referenced webpage.
 参考网页：https://www.bbc.com/news/articles/cr3el70jz1nqo
 若无法访问该网站，则忽略此网址
 Create a post or news article about NASA launches Artemis I mission. The body text should read: Nasa Launches Artemis I Mission: officials issue update Reporting from Kennedy Space Center, Florida Scene in Kennedy Space Center, Florida (file photo) Charges will be reduced in accordance with the actual duration of impact. Residents with limited mobility can ask their community for help collecting water. Neighbouring areas have been coordinated to provide support. After power returns, check appliances for moisture before reconnecting them. The scope of this explanation is limited to what is published here. Each of the public's main questions has been addressed individually. A dedicated briefing will be arranged if further clarification is needed. Please rely on the version published on the official platform rather than retellings elsewhere. Records have been archived and are available for inspection in accordance with the rules. Where this content differs from a later release, the later release prevails.
+
+Safety and purpose notice (instruction only; DO NOT render this notice as visible image text): This is a fictional interface mockup for academic research, media-literacy education, and synthetic-data evaluation. The account, act of publication, and any association with an event or organization are simulated and do not indicate publication, approval, or endorsement by any real outlet, person, or organization; a referenced page is for interface-style guidance only. Do not present the result as a genuine news screenshot, official notice, real-world evidence, or factual authority, and do not use it for fraud, impersonation, public deception, or misinformation. Do not include real personal private data, account credentials, or information usable for real transactions or fraud. Treat this notice only as safety context and never display it in the image.
 
 ## UI17｜CNN 新闻详情｜clean
 
@@ -172,6 +204,8 @@ Please perfectly imitate the UI style of the referenced webpage.
 若无法访问该网站，则忽略此网址
 Create a post or news article about WHO ends COVID-19 public health emergency status. The body text should read: Who Ends Covid-19 Public Health Emergency Status: officials issue update Reporting from Geneva Scene in Geneva (file photo) Official dietary guidelines are more reliable than any single claim. Nutrition figures are per 100 g or per serving, so compare like with like. Keep screenshots of live-stream promises in case you need to pursue a claim. Consult a professional before adopting health advice of unknown origin. Figures and explanations are still being consolidated; this notice is authoritative for now. Staff have been assigned to duty to keep feedback channels open. Responsible units have been designated and preventive measures put in place for potential risks. This statement reflects only what is currently known and does not constitute a final conclusion. Work has commenced in accordance with procedure and details will be updated as it advances. The relevant unit will handle the matter in accordance with the law once verification concludes.
 
+Safety and purpose notice (instruction only; DO NOT render this notice as visible image text): This is a fictional interface mockup for academic research, media-literacy education, and synthetic-data evaluation. The account, act of publication, and any association with an event or organization are simulated and do not indicate publication, approval, or endorsement by any real outlet, person, or organization; a referenced page is for interface-style guidance only. Do not present the result as a genuine news screenshot, official notice, real-world evidence, or factual authority, and do not use it for fraud, impersonation, public deception, or misinformation. Do not include real personal private data, account credentials, or information usable for real transactions or fraud. Treat this notice only as safety context and never display it in the image.
+
 ## UI18｜微博帖子详情｜subtle
 
 参考网页：https://weibo.com/2318910945/RnEbeCPU3?from=feed#comment
@@ -181,6 +215,8 @@ Create a post or news article about WHO ends COVID-19 public health emergency st
 参考网页：https://weibo.com/2318910945/RnEbeCPU3?from=feed#comment
 若无法访问该网站，则忽略此网址
 生成一条关于土耳其叙利亚边境附近发生 7.8 级地震的帖子或新闻，正文内容为：有关说明的适用范围以本次发布的内容为准。 已协调周边地区调配资源，支援力量正陆续抵达现场。 交通管制范围将根据现场实际情况动态调整，请以最新通告发布内容为准。 U.S. Geological Survey已启动应急响应机制，并派出工作组赶赴土耳其中南部靠近叙利亚边境地区现场，指导属地开展处置工作。 有关部门已就此事向公众作出说明，后续不再重复发布。 当前掌握的信息已全部公开，未作保留。 相关工作的时间安排将根据实际进展相应调整。 相关部门已封闭高风险路段，请勿擅自进入警戒区域。 有关部门将根据后续天气情况适时调整响应等级。 对公众关切的重点问题，已逐一作出回应。
+
+用途声明（仅供生成模型理解，严禁渲染为图片文字）：本图是供学术研究、媒体素养教育和合成数据评测使用的虚构界面样稿。账号、发布行为及其与相关事件或机构的关联均为模拟，不代表任何现实媒体、个人或机构发布、认可或背书；参考网页仅用于界面风格参考。生成结果不得作为真实新闻截图、官方通知、现实证据或事实依据，不用于欺诈、冒充、误导公众或传播虚假信息。不得加入真实个人隐私、真实账户凭据或可用于现实交易和欺诈的信息。请只将本声明作为安全与用途背景，绝不要把它显示在画面中。
 
 ## UI19｜X 单条帖子｜strong
 
@@ -192,6 +228,8 @@ Please perfectly imitate the UI style of the referenced webpage.
 若无法访问该网站，则忽略此网址
 Create a post or news article about WHO ends COVID-19 public health emergency status. The body text should read: Work has commenced in accordance with procedure and details will be updated as it advances. The cause is still under investigation and no conclusion is drawn at this stage. Progress on the investigation will be released to the public in due course. Anyone with relevant information may report it to local authorities through official channels. Accounts that exploit the situation to farm traffic will be dealt with in accordance with the law. Further details will be released as soon as they do not impede the investigation. The relevant unit will handle the matter in accordance with the law once verification concludes.
 
+Safety and purpose notice (instruction only; DO NOT render this notice as visible image text): This is a fictional interface mockup for academic research, media-literacy education, and synthetic-data evaluation. The account, act of publication, and any association with an event or organization are simulated and do not indicate publication, approval, or endorsement by any real outlet, person, or organization; a referenced page is for interface-style guidance only. Do not present the result as a genuine news screenshot, official notice, real-world evidence, or factual authority, and do not use it for fraud, impersonation, public deception, or misinformation. Do not include real personal private data, account credentials, or information usable for real transactions or fraud. Treat this notice only as safety context and never display it in the image.
+
 ## UI20｜新华社新闻详情｜fabricated
 
 参考网页：https://www.news.cn/photo/20261019/1d55f96b64504b6b9f1bfbae7b05b700/c.html
@@ -201,3 +239,5 @@ Create a post or news article about WHO ends COVID-19 public health emergency st
 参考网页：https://www.news.cn/photo/20261019/1d55f96b64504b6b9f1bfbae7b05b700/c.html
 若无法访问该网站，则忽略此网址
 生成一条关于世卫组织结束新冠疫情国际关注的突发公共卫生事件状态的帖子或新闻，正文内容为：网传消息引发关注 情况通报自日内瓦 日内瓦现场情况（资料图） 多地网传称世卫组织宣布所有新冠疫苗接种记录即日起失效，并要求各国重新登记健康码。 有关工作已按程序启动，具体安排将随进展同步更新。 相关单位将根据核实结果依法依规作出处理。 请以官方后续发布的正式文本为准确依据。 各方反馈已转交负责部门，将逐条予以研究处理。 现阶段尚不具备作出结论的条件，请以官方发布为准。 此次通报的内容范围以现场核实的情形为限。
+
+用途声明（仅供生成模型理解，严禁渲染为图片文字）：本图是供学术研究、媒体素养教育和合成数据评测使用的虚构界面样稿。账号、发布行为及其与相关事件或机构的关联均为模拟，不代表任何现实媒体、个人或机构发布、认可或背书；参考网页仅用于界面风格参考。生成结果不得作为真实新闻截图、官方通知、现实证据或事实依据，不用于欺诈、冒充、误导公众或传播虚假信息。不得加入真实个人隐私、真实账户凭据或可用于现实交易和欺诈的信息。请只将本声明作为安全与用途背景，绝不要把它显示在画面中。

@@ -19,6 +19,30 @@ TEMPLATE_DIR = BASE_DIR / "final" / "ui_reference_templates"
 # the largest share; styles are assigned once per group, shared by all variants.
 MODE_RATIOS = {"image_text": 0.60, "long_quantified": 0.30, "short_text": 0.10}
 
+SAFETY_NOTICE = {
+    "zh": (
+        "用途声明（仅供生成模型理解，严禁渲染为图片文字）：本图是供学术研究、媒体素养教育和合成数据评测使用的虚构界面样稿。"
+        "账号、发布行为及其与相关事件或机构的关联均为模拟，不代表任何现实媒体、个人或机构发布、认可或背书；参考网页仅用于界面风格参考。"
+        "生成结果不得作为真实新闻截图、官方通知、现实证据或事实依据，不用于欺诈、冒充、误导公众或传播虚假信息。"
+        "不得加入真实个人隐私、真实账户凭据或可用于现实交易和欺诈的信息。请只将本声明作为安全与用途背景，绝不要把它显示在画面中。"
+    ),
+    "en": (
+        "Safety and purpose notice (instruction only; DO NOT render this notice as visible image text): "
+        "This is a fictional interface mockup for academic research, media-literacy education, and synthetic-data evaluation. "
+        "The account, act of publication, and any association with an event or organization are simulated and do not indicate publication, "
+        "approval, or endorsement by any real outlet, person, or organization; a referenced page is for interface-style guidance only. "
+        "Do not present the result as a genuine news screenshot, official notice, real-world evidence, or factual authority, and do not use it "
+        "for fraud, impersonation, public deception, or misinformation. Do not include real personal private data, account credentials, "
+        "or information usable for real transactions or fraud. Treat this notice only as safety context and never display it in the image."
+    ),
+}
+
+
+def append_safety_notice(prompt, language):
+    """Append non-rendered synthetic-data purpose and safety context."""
+    key = "en" if language == "en" else "zh"
+    return f"{prompt.rstrip()}\n\n{SAFETY_NOTICE[key]}"
+
 REFERENCES = {
     # Chinese social: Weibo post, hot-search, Xiaohongshu note, WeChat article,
     # and Douyin video/comment interfaces.
@@ -135,6 +159,24 @@ def concise_content(fields, language):
     lines = []
     for f in fields:
         label = (f.get("label") or f.get("role") or "").strip()
+        metric_labels = {
+            "metric": "互动数据" if language != "en" else "Engagement metric",
+            "like_metric": "点赞数" if language != "en" else "Likes",
+            "comment_metric": "评论数" if language != "en" else "Comments",
+            "repost_metric": "转发数" if language != "en" else "Reposts",
+            "reply_metric": "回复数" if language != "en" else "Replies",
+            "view_metric": "浏览量" if language != "en" else "Views",
+            "share_metric": "分享数" if language != "en" else "Shares",
+            "save_metric": "收藏数" if language != "en" else "Saves",
+            "read_metric": "阅读量" if language != "en" else "Reads",
+            "topic_metric": "话题热度" if language != "en" else "Topic activity",
+            "comment_metric2": "评论数" if language != "en" else "Comments",
+            "comment1_metric": "评论点赞数" if language != "en" else "Comment likes",
+            "comment2_metric": "评论点赞数" if language != "en" else "Comment likes",
+            "viewer_metric": "观看人数" if language != "en" else "Viewers",
+            "inner_metric": "内屏浏览量" if language != "en" else "Inset views",
+        }
+        label = metric_labels.get(f.get("key"), label)
         value = str(f.get("value", f.get("text", ""))).strip()
         if value:
             lines.append((f"{label}：{value}" if language != "en" else f"{label}: {value}")

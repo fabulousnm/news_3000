@@ -37,6 +37,7 @@ from ui_reference_urls import (  # noqa: E402
     X_POST_URL,
     YOUTUBE_NEWS_VIDEO_URL,
 )
+from ui_prompt_modes import append_safety_notice  # noqa: E402
 from variants import derive_variants  # noqa: E402
 
 
@@ -93,12 +94,14 @@ def make_prompt(url, language, fields, title):
         if url else ""
     )
     if language == "en":
-        return (
+        prompt = (
             f"Please perfectly imitate the UI style of the referenced webpage.\n{reference}"
             f"Create a post or news article about {title}. The body text should read: {body}"
         )
-    prefix = f"请你完美模仿这个网页的 UI 风格。\n{reference}" if reference else "请你模仿现实平台的 UI 风格。\n"
-    return f"{prefix}生成一条关于{title}的帖子或新闻，正文内容为：{body}"
+    else:
+        prefix = f"请你完美模仿这个网页的 UI 风格。\n{reference}" if reference else "请你模仿现实平台的 UI 风格。\n"
+        prompt = f"{prefix}生成一条关于{title}的帖子或新闻，正文内容为：{body}"
+    return append_safety_notice(prompt, language)
 
 
 def select_groups(plan):
