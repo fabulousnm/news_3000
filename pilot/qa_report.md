@@ -8,6 +8,9 @@
 | 检查 | 结果 | 说明 |
 |---|---|---|
 | triplet_integrity | pass | 120 groups checked |
+| ui_prompt_mode_group_consistency | pass | all variants share their group's prompt mode |
+| ui_prompt_mode_reference_ratio | skip | {'eligible_groups': 110, 'actual': {'long_quantified': 41, 'image_text': 60, 'sh |
+| ui_prompt_reference_present | pass | all image-led and short-text modes have a reference asset |
 | variant_tier_definition | pass | 480 prompts checked |
 | group_structural_consistency | pass | all groups consistent |
 | forbidden_visible_text | pass | none found |
@@ -24,6 +27,9 @@
 - **by_region**：{'CN': 396, 'NA': 84}
 - **by_language**：{'zh-Hans': 396, 'en': 84}
 - **by_hazard**：{'H3': 80, 'H2': 72, 'H5': 48, 'H1': 60, 'H7': 40, 'H8': 48, 'H6': 32, 'H4': 72, 'H9': 28}
+- **by_ui_prompt_mode**：{'short_text': 36, 'image_text': 240, 'long_quantified': 204}
+- **ui_reference_backed_groups**：110
+- **by_ui_prompt_mode_on_reference_groups**：{'long_quantified': 41, 'image_text': 60, 'short_text': 9}
 - **by_split**：{'train': 468, 'validation': 12}
 - **by_density**：{'High': 401, 'Medium': 78, 'VeryHigh': 1}
 - **tamper_type_counts**：{'metric': 111, 'timestamp': 50, 'location': 93, 'magnitude': 84, 'sensitive_addition': 58, 'urgency': 58, 'account_identity': 72, 'official_statement': 56, 'omission': 12, 'headline_body_conflict': 19}

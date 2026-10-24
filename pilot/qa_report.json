@@ -7,6 +7,34 @@
    "detail": "120 groups checked"
   },
   {
+   "rule_id": "ui_prompt_mode_group_consistency",
+   "status": "pass",
+   "detail": "all variants share their group's prompt mode"
+  },
+  {
+   "rule_id": "ui_prompt_mode_reference_ratio",
+   "status": "skip",
+   "detail": {
+    "eligible_groups": 110,
+    "actual": {
+     "long_quantified": 41,
+     "image_text": 60,
+     "short_text": 9
+    },
+    "expected": {
+     "image_text": 66,
+     "long_quantified": 33,
+     "short_text": 11
+    },
+    "note": "ratio is checked on full releases; pilots retain full-plan group assignments"
+   }
+  },
+  {
+   "rule_id": "ui_prompt_reference_present",
+   "status": "pass",
+   "detail": "all image-led and short-text modes have a reference asset"
+  },
+  {
    "rule_id": "variant_tier_definition",
    "status": "pass",
    "detail": "480 prompts checked"
@@ -66,6 +94,17 @@
    "H6": 32,
    "H4": 72,
    "H9": 28
+  },
+  "by_ui_prompt_mode": {
+   "short_text": 36,
+   "image_text": 240,
+   "long_quantified": 204
+  },
+  "ui_reference_backed_groups": 110,
+  "by_ui_prompt_mode_on_reference_groups": {
+   "long_quantified": 41,
+   "image_text": 60,
+   "short_text": 9
   },
   "by_split": {
    "train": 468,

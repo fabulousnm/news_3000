@@ -14,6 +14,7 @@ Outputs (under final/):
 """
 
 import argparse
+import copy
 import csv
 import json
 import sys
@@ -28,8 +29,13 @@ from common import (  # noqa: E402
     build_plan, collect_visible_text, count_density, frozen_threshold_hash, stable_hash,
 )
 from content import build_base_content  # noqa: E402
-from render import build_prompt, build_prompt_en  # noqa: E402
+from render import _trim_coherent, build_prompt, build_prompt_en, limit_long_body_fields  # noqa: E402
 from variants import derive_variants  # noqa: E402
+from ui_prompt_modes import (  # noqa: E402
+    append_safety_notice, assign_prompt_modes, build_reference_prompt, reference_for, reference_overrides,
+    compact_location_label, reference_layout_instruction, topic_search_phrase,
+)
+from ui_template_specs import TEMPLATE_SPECS  # noqa: E402
 
 REGION_NAMES = {
     "CN": "中国内地", "NA": "北美地区", "UK": "英国", "AU": "澳大利亚",
@@ -49,6 +55,9 @@ VISUAL_STYLE_BY_FAMILY = {
 
 def build_records(limit=None):
     plan = build_plan()
+    # Assign modes over the full frozen plan so a pilot subset keeps the same
+    # per-group decisions as the eventual full release.
+    prompt_modes = assign_prompt_modes(plan)
     if limit:
         plan = plan[:limit]
 
@@ -86,12 +95,78 @@ def build_records(limit=None):
             "variants": list(VARIANT_ORDER),
             "source_event_id": meta["real_event"]["event_id"],
             "source_urls": [meta["real_event"]["source_url"]],
+            "ui_prompt_mode": prompt_modes.get(group["group_id"], "long_quantified"),
         }
         groups.append(group_record)
 
         for variant in VARIANT_ORDER:
             rec = variants[variant]
             fields = rec["fields"]
+            # Rendering needs the selected mode so long prompts can consolidate
+            # continuation/caption copy before the final prompt is assembled.
+            group["ui_prompt_mode"] = prompt_modes.get(group["group_id"], "long_quantified")
+            ui_mode = prompt_modes.get(group["group_id"])
+            available_reference = reference_for(group) if ui_mode else None
+            selected_template = available_reference["file"] if available_reference else ""
+            group["ui_reference_template"] = selected_template
+            reference_details_text = ""
+            if ui_mode == "long_quantified" and available_reference:
+                reference_details_text = reference_overrides(
+                    group, copy.deepcopy(fields), available_reference, group["language"],
+                    image_key=f"{group['group_id']}-{variant}",
+                )
+            fields = limit_long_body_fields(
+                fields, layout, group["language"], group["layout_id"], selected_template
+            )
+            if ui_mode == "long_quantified" and not any(
+                f.get("key", "").startswith(("body", "note_line", "inline_note", "extended_body", "caption_text"))
+                for f in fields if f.get("value")
+            ):
+                fallback_title = group["meta"].get("subject_title", "").strip()
+                if fallback_title:
+                    fields.append({"key": "body_text", "label": "正文", "value": fallback_title})
+                    fields = limit_long_body_fields(fields, layout, group["language"], group["layout_id"], selected_template)
+            if selected_template == "douyin-mobile-video.png":
+                allowed = {"body_text", "caption_text", "location", "location_label", "audio_name",
+                           "like_metric", "comment_metric", "share_metric", "save_metric", "view_metric"}
+                fields = [f for f in fields if f.get("key") in allowed]
+                for field in fields:
+                    if field["key"] in {"body_text", "caption_text"}:
+                        field["value"] = _trim_coherent(field.get("value", ""), 42, group["language"])
+                    elif field["key"] in {"location", "location_label"}:
+                        field["value"] = compact_location_label(
+                            field.get("value", ""), group["language"],
+                            18 if group["language"] != "en" else 32,
+                        )
+                    elif field["key"] == "audio_name":
+                        audio_cap = 24 if group["language"] != "en" else 40
+                        audio = str(field.get("value", "")).strip()
+                        field["value"] = audio if len(audio) <= audio_cap else (
+                            "原声" if group["language"] != "en" else "Original audio"
+                        )
+                fields = [f for f in fields if f.get("value")]
+                if not any(f.get("key") in {"body_text", "caption_text"} for f in fields):
+                    fields.append({
+                        "key": "caption_text",
+                        "label": "配文" if group["language"] != "en" else "Caption",
+                        "value": topic_search_phrase(
+                            group["meta"]["real_event"]["title_en" if group["language"] == "en" else "title_zh"],
+                            group["language"],
+                        ),
+                    })
+                fields.append({
+                    "key": "search_phrase",
+                    "label": "搜索框文案" if group["language"] != "en" else "Search-box text",
+                    "value": topic_search_phrase(meta["real_event"]["title_en" if group["language"] == "en" else "title_zh"], group["language"]),
+                })
+            if ui_mode == "long_quantified" and not any(
+                f.get("key", "").startswith(("body", "note_line", "inline_note", "extended_body", "caption_text"))
+                for f in fields if f.get("value")
+            ):
+                fallback_title = meta["real_event"]["title_en" if group["language"] == "en" else "title_zh"]
+                fields.append({"key": "body_text", "label": "正文", "value": fallback_title})
+            render_record = dict(rec)
+            render_record["fields"] = fields
             visible = collect_visible_text(fields)
             density, measured, unit = count_density(visible)
             # Density must be known before rendering so the prompt can state a
@@ -101,12 +176,25 @@ def build_records(limit=None):
 
             if group["language"] == "en":
                 prompt_text = build_prompt_en(
-                    group, layout, rec, carrier, "native_screenshot"
+                    group, layout, render_record, carrier, "native_screenshot"
                 )
             else:
                 prompt_text = build_prompt(
-                    group, layout, rec, carrier_desc, realism_desc, normal_desc, visual_style_desc
+                    group, layout, render_record, carrier_desc, realism_desc, normal_desc, visual_style_desc
                 )
+
+            ui_reference = available_reference
+            if ui_mode in ("image_text", "short_text") and available_reference:
+                prompt_text = build_reference_prompt(
+                    group, fields, available_reference, group["language"], ui_mode,
+                    image_key=f"{group['group_id']}-{variant}",
+                )
+            elif available_reference:
+                prompt_text = (reference_layout_instruction(available_reference, group["language"])
+                               + "\n" + prompt_text
+                               + ("\n" + reference_details_text if reference_details_text else ""))
+            prompt_text = append_safety_notice(prompt_text, group["language"])
+            ui_render_data = group.pop("_ui_render_data", {})
 
             prompt_id = f"{group['group_id']}-{variant}"
             prompts.append({
@@ -148,6 +236,11 @@ def build_records(limit=None):
                 "source_urls": [meta["real_event"]["source_url"]],
                 "fabrication_method": rec.get("fabrication_method", ""),
                 "fictional_entity_note": "机构、媒体、地名、人名、编号均为虚构。",
+                "ui_prompt_mode": ui_mode or "long_quantified",
+                "ui_reference_image": ui_reference["image"] if ui_reference and ui_mode != "short_text" else "",
+                "ui_reference_template": ui_reference["file"] if ui_reference else "",
+                "ui_reference_url": ui_reference["url"] if ui_reference else "",
+                "ui_render_data": ui_render_data,
                 "prompt": prompt_text,
             })
 
@@ -175,6 +268,50 @@ def validate(groups, prompts):
     })
     if bad:
         report["errors"].append({"rule": "triplet_integrity", "detail": bad[:10]})
+
+    ui_by_group = {}
+    for p in prompts:
+        ui_by_group[p["group_id"]] = (p.get("ui_prompt_mode", "long_quantified"),
+                                       bool(p.get("ui_reference_image")))
+    ui_inconsistent = []
+    for gid in per_group:
+        rows = [p for p in prompts if p["group_id"] == gid]
+        if len({p.get("ui_prompt_mode", "long_quantified") for p in rows}) > 1:
+            ui_inconsistent.append(gid)
+    report["checks"].append({
+        "rule_id": "ui_prompt_mode_group_consistency",
+        "status": "pass" if not ui_inconsistent else "fail",
+        "detail": ui_inconsistent[:10] or "all variants share their group's prompt mode",
+    })
+    missing_ref = [p["prompt_id"] for p in prompts
+                   if p.get("ui_prompt_mode") == "image_text"
+                   and not p.get("ui_reference_image")]
+    ref_groups = {p["group_id"] for p in prompts if p.get("ui_reference_template")}
+    ref_modes = Counter(ui_by_group[g][0] for g in ref_groups)
+    expected_ref_modes = {
+        "image_text": round(len(ref_groups) * 0.60),
+        "long_quantified": round(len(ref_groups) * 0.30),
+    }
+    expected_ref_modes["short_text"] = len(ref_groups) - sum(expected_ref_modes.values())
+    mode_ratio_ok = all(ref_modes[m] == n for m, n in expected_ref_modes.items())
+    allocation_is_full_release = len(groups) == QUOTAS["total_groups"]
+    report["checks"].append({
+        "rule_id": "ui_prompt_mode_reference_ratio",
+        "status": ("pass" if mode_ratio_ok else "fail") if allocation_is_full_release else "skip",
+        "detail": {"eligible_groups": len(ref_groups), "actual": dict(ref_modes),
+                   "expected": expected_ref_modes,
+                   "note": "ratio is checked on full releases; pilots retain full-plan group assignments"
+                           if not allocation_is_full_release else "full release allocation"},
+    })
+    if allocation_is_full_release and not mode_ratio_ok:
+        report["errors"].append({"rule": "ui_prompt_mode_reference_ratio",
+                                 "detail": {"actual": dict(ref_modes), "expected": expected_ref_modes}})
+
+    report["checks"].append({
+        "rule_id": "ui_prompt_reference_present",
+        "status": "pass" if not missing_ref else "fail",
+        "detail": missing_ref[:10] or "all image-led and short-text modes have a reference asset",
+    })
 
     # Variant tier definitions
     tier_fail = []
@@ -242,6 +379,9 @@ def validate(groups, prompts):
         "by_region": dict(Counter(p["region"] for p in prompts)),
         "by_language": dict(Counter(p["language"] for p in prompts)),
         "by_hazard": dict(Counter(p["hazard"] for p in prompts)),
+        "by_ui_prompt_mode": dict(Counter(p.get("ui_prompt_mode", "long_quantified") for p in prompts)),
+        "ui_reference_backed_groups": len(ref_groups),
+        "by_ui_prompt_mode_on_reference_groups": dict(ref_modes),
         "by_split": dict(Counter(p["split"] for p in prompts)),
         "by_density": dict(Counter(p["text_density"] for p in prompts)),
         "tamper_type_counts": dict(Counter(
@@ -252,6 +392,13 @@ def validate(groups, prompts):
 
 def write_outputs(groups, prompts, report, out_dir):
     out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Keep the plain-text release synchronized with the exact prompt strings
+    # written to JSONL/CSV, including UI prompt modes and reference fallbacks.
+    from export_txt import export as export_prompts_txt
+    export_prompts_txt(
+        prompts, out_dir / f"news_rumor_prompts_{len(prompts)}.txt", mode="full-meta"
+    )
 
     with open(out_dir / "news_rumor_prompts_3000.jsonl", "w", encoding="utf-8") as fh:
         for p in prompts:
@@ -328,7 +475,8 @@ def write_unified_csv(prompts, out_path):
     cols = [
         "sample_id", "direction", "category_l1", "category_l2", "variant",
         "aspect_ratio", "prompt", "group_id", "target_texts", "tamper_types",
-        "tamper_details", "extra_json",
+        "tamper_details", "extra_json", "prompt_type_code",
+        "ui_reference_url", "ui_reference_image",
     ]
     with open(out_path, "w", encoding="utf-8-sig", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=cols)
@@ -359,6 +507,14 @@ def write_unified_csv(prompts, out_path):
                 "source_event_id": p["source_event_id"],
                 "source_title": p["source_title"],
                 "source_urls": p["source_urls"],
+                "ui_prompt_mode": p.get("ui_prompt_mode", "long_quantified"),
+                "ui_reference_image": p.get("ui_reference_image", ""),
+                "ui_reference_template": p.get("ui_reference_template", ""),
+                "ui_reference_url": p.get("ui_reference_url", ""),
+                "ui_render_data": p.get("ui_render_data", {}),
+                "ui_content_fields": p.get("fields", []),
+                "output_strategy": "complete_image_generation_with_template_reference"
+                if p.get("ui_reference_image") else "prompt_only",
                 "fabrication_method": p["fabrication_method"],
                 "changed_fields": p["changed_fields"],
                 "rule_failure_count": p["rule_failure_count"],
@@ -377,6 +533,13 @@ def write_unified_csv(prompts, out_path):
                 "tamper_types": "|".join(p["tamper_types"]),
                 "tamper_details": "|".join(d.replace("|", "｜") for d in details),
                 "extra_json": json.dumps(extra, ensure_ascii=False, sort_keys=True),
+                "prompt_type_code": (
+                    1 if p.get("ui_reference_image") else
+                    3 if p.get("ui_prompt_mode") == "short_text" else 2
+                ),
+                "ui_reference_url": p.get("ui_reference_url", "") or "",
+                "ui_reference_image": str((BASE_DIR / p["ui_reference_image"]).resolve())
+                    if p.get("ui_reference_image") else "",
             })
 
 

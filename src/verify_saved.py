@@ -16,6 +16,12 @@ TRACKED = [
     "final/news_rumor_prompts_unified.csv",
     "final/groups.jsonl",
     "final/qa_report.json",
+    "final/news_rumor_prompts_4000.txt",
+    "src/generate.py",
+    "src/generate_ui_reference_pilot.py",
+    "src/export_txt.py",
+    "src/ui_prompt_modes.py",
+    "src/ui_reference_urls.py",
     "config/quotas.json",
     "config/variant_rules.json",
     "config/anomaly_types.json",
@@ -29,6 +35,16 @@ TRACKED = [
 ]
 
 
+def release_files():
+    """Files covered by the release checksums, including UI template assets."""
+    templates = sorted(
+        p.relative_to(BASE_DIR).as_posix()
+        for p in (BASE_DIR / "final/ui_reference_templates").glob("*")
+        if p.is_file()
+    )
+    return TRACKED + templates
+
+
 def sha256_file(path):
     h = hashlib.sha256()
     with open(path, "rb") as fh:
@@ -39,7 +55,7 @@ def sha256_file(path):
 
 def write_sums():
     lines = []
-    for rel in TRACKED:
+    for rel in release_files():
         p = BASE_DIR / rel
         if p.exists():
             lines.append(f"{sha256_file(p)}  {rel}")
@@ -73,7 +89,7 @@ def write_manifest():
         "constraints_sha256": stable_hash(CONSTRAINTS),
         "layout_templates_sha256": stable_hash(LAYOUTS),
         "file_hashes": {rel: sha256_file(BASE_DIR / rel)
-                        for rel in TRACKED if (BASE_DIR / rel).exists()},
+                        for rel in release_files() if (BASE_DIR / rel).exists()},
         "note": "配额、档位定义与质量分级阈值均在生成前冻结，生成后不调整。",
     }
     (BASE_DIR / "release_manifest.json").write_text(
