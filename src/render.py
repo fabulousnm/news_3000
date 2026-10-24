@@ -7,6 +7,8 @@ Text is written verbatim inside 「」 per the declared convention; layout
 sections are marked with 【】.
 """
 
+import re
+
 from common import PROMPT_TEMPLATES, LAYOUTS
 from prompt_details import (CAPTURE_DETAIL, CARRIER_VISUAL, DENSITY_RULE,
                             DENSITY_RULE_EN, TAIL_RULES, TYPOGRAPHY_DETAIL,
@@ -113,6 +115,73 @@ SECTION_NAMES = {
         "key_fact_3": "Fact three", "key_fact_4": "Fact four", "quick_footer": "Quick-read footer",
     },
 }
+
+LONG_BODY_ROLES = {
+    "body_extension", "body_extension_2", "inline_note", "extended_body", "caption_note",
+    "card_summary", "article_excerpt", "item_extra", "item_list", "summary_extra",
+}
+LONG_BODY_FIELD_KEYS = {"body_text", "caption_text", "inline_note", "inline_note_text", "extended_body", "body_extension",
+                        "body_extension_2", "note_line1", "note_line2", "note_line3", "note_line4",
+                        "note_line5", "note_line6", "note_line7"}
+
+LONG_BODY_CHAR_LIMITS = {
+    "cn_social_text_only": 140, "cn_social_image_post": 120, "cn_social_grid_gallery": 90,
+    "cn_social_quote_repost": 120, "cn_social_topic_aggregation": 100, "cn_social_embedded_comment": 90,
+    "en_social_text_only": 220, "en_social_image_post": 150, "en_social_quote_repost": 180,
+    "image_social_post": 120, "image_social_grid": 90, "cn_social_html_post": 120,
+    "en_social_news_card": 180, "short_video_scene_frame": 42, "short_video_caption_narration": 48,
+    "short_video_overlay_graphic": 36, "short_video_screen_in_screen": 36, "short_video_live_capture": 36,
+    "tv_broadcast": 90, "tv_breaking_interrupt": 72, "newspaper_front_page": 240,
+    "newspaper_inner_page": 420, "news_site_home": 480, "news_app_detail": 480,
+    "wire_bulletin": 520, "news_brief_card": 180, "share_card": 120,
+    "summary_long_image": 680, "topic_aggregation_long_image": 420,
+    "timeline_image": 360, "quick_read_card": 220,
+}
+
+
+def _trim_coherent(text, limit, language):
+    text = str(text or "").strip()
+    if len(text) <= limit:
+        return text
+    candidate = text[:limit]
+    # Keep only complete sentences. A word boundary is not enough: it can
+    # leave fragments such as "provided by the" or "请以官方后续发布的".
+    if language == "en":
+        ends = [m.end() for m in re.finditer(r"[.!?](?=\s|$)", candidate)]
+    else:
+        ends = [m.end() for m in re.finditer(r"[。！？]", candidate)]
+    return candidate[:ends[-1]].rstrip() if ends else ""
+
+
+def limit_long_body_fields(fields, layout, language, layout_id, template=""):
+    """Cap concatenated article/post copy to the selected template's line area."""
+    import copy
+    from ui_template_specs import TEMPLATE_SPECS
+
+    result = copy.deepcopy(fields)
+    template_limit = TEMPLATE_SPECS.get(template, {}).get("body_limit", 0)
+    limit = template_limit or LONG_BODY_CHAR_LIMITS.get(layout_id, 360)
+    consumed = 0
+    for field in result:
+        key = field.get("key", "")
+        role = section_for_role(key, layout)
+        is_body = (role == "body" or role in LONG_BODY_ROLES or role in {"caption_strip", "caption_block"}
+                   or field.get("key") in LONG_BODY_FIELD_KEYS or field.get("key", "").startswith("body_line"))
+        if not is_body or not field.get("value"):
+            continue
+        remaining = limit - consumed
+        if remaining <= 0:
+            field["value"] = ""
+            continue
+        original_length = len(str(field.get("value", "")))
+        clipped = _trim_coherent(field["value"], remaining, language)
+        field["value"] = clipped
+        consumed += len(clipped)
+        if original_length > remaining and not clipped:
+            # There is not enough room for a complete sentence; later fields
+            # must not be packed into the remaining few characters either.
+            consumed = limit
+    return [field for field in result if field.get("value")]
 
 ROLE_TO_SECTION = {
     "platform_label": "top_bar", "nav_label": "top_bar",
@@ -298,7 +367,7 @@ def _section_name(role, language):
 
 ROLE_LABELS = {
     # 社交
-    "platform_label": "平台名称", "nav_label": "导航",
+    "platform_label": "平台名称", "nav_label": "导航", "search_phrase": "搜索框文案",
     "account_name": "账号名称", "account_meta": "账号简介", "verified_label": "认证标识",
     "display_name": "显示名称", "author_name": "作者名称", "handle": "用户标识",
     "follow_label": "关注按钮", "location_label": "地点", "menu_label": "菜单",
@@ -473,7 +542,7 @@ ROLE_LABELS = {
 
 def _role_label(role, language):
     if language == "en":
-        return ""
+        return "Search-box text" if role == "search_phrase" else ""
     return ROLE_LABELS.get(role, "")
 
 
@@ -526,7 +595,7 @@ CAPTURE_DESC_EN = {
     ),
 }
 
-def render_content_blocks(fields, layout, language):
+def render_content_blocks(fields, layout, language, consolidate_long_body=False):
     """Render the 【section】「text」 blocks in layout order."""
     by_section = {}
     # Fallback: keys not mapped to a section go to the layout's first section.
@@ -535,25 +604,70 @@ def render_content_blocks(fields, layout, language):
     for f in fields:
         if not f.get("value"):
             continue
-        role = section_for_role(f["key"], layout)
+        role = "search_phrase" if f["key"] == "search_phrase" else section_for_role(f["key"], layout)
+        if consolidate_long_body:
+            if f["key"] in {"hashtags", "hashtag_row", "topic_tag"}:
+                role = "topic_strip"
+            elif role in LONG_BODY_ROLES or role in {"caption_strip", "caption_block"} or f["key"] in LONG_BODY_FIELD_KEYS or f["key"].startswith("body_line"):
+                role = "body"
         by_section.setdefault(role, []).append(f)
 
     lines = []
+    emitted_body = False
+    emitted_topic = False
     for sec in layout["sections"]:
-        items = by_section.get(sec["role"], [])
+        section_role = sec["role"]
+        if consolidate_long_body and section_role in LONG_BODY_ROLES | {"caption_strip", "caption_block"}:
+            section_role = "body"
+        items = by_section.get(section_role, [])
         if not items:
             continue
-        name = _section_name(sec["role"], language)
+        if consolidate_long_body and section_role == "body":
+            if emitted_body:
+                continue
+            emitted_body = True
+        if consolidate_long_body and section_role == "topic_strip":
+            emitted_topic = True
+        name = "话题条" if sec["role"] == "topic_strip" else _section_name(section_role, language)
+        if consolidate_long_body and sec["role"] == "topic_strip":
+            items = by_section.get("topic_strip", [])
+            if not items:
+                items = [{"key": "hashtags", "value": "#热点 #民生 #提示" if language != "en" else "#News #Community #Update"}]
         parts = []
+        if consolidate_long_body and section_role == "body":
+            body_text = (" " if language == "en" else "").join(str(it["value"]).strip() for it in items)
+            parts = [f"正文「{body_text}」" if language != "en" else f'"{body_text}"']
         for it in items:
+            if consolidate_long_body and section_role == "body":
+                break
             lbl = _role_label(it["key"], language)
             parts.append(f"{lbl}「{it['value']}」" if lbl else f"「{it['value']}」")
         lines.append(f"【{name}】" + "、".join(parts) + "。")
+    if consolidate_long_body and not emitted_body and by_section.get("body"):
+        body_text = (" " if language == "en" else "").join(str(it["value"]).strip() for it in by_section["body"])
+        lines.append(f"【正文区】正文「{body_text}」。" if language != "en" else f"[Post body] \"{body_text}\".")
+    if consolidate_long_body and not emitted_topic:
+        tags = by_section.get("topic_strip") or [{"key": "hashtags", "value": "#热点 #民生 #提示" if language != "en" else "#News #Community #Update"}]
+        lines.append("【话题条】" + "、".join(f"「{it['value']}」" for it in tags) + "。")
+    if by_section.get("search_phrase"):
+        label = "Search-box text" if language == "en" else "搜索框文案"
+        value = str(by_section["search_phrase"][0]["value"]).strip()
+        lines.append(f"[{label}] {value}." if language == "en" else f"【{label}】「{value}」。")
     return "\n".join(lines)
 
 
-def render_layout_structure(layout, language):
-    names = [_section_name(s["role"], language) for s in layout["sections"]]
+def render_layout_structure(layout, language, consolidate_long_body=False):
+    roles = []
+    for sec in layout["sections"]:
+        role = sec["role"]
+        if consolidate_long_body and role in LONG_BODY_ROLES | {"caption_strip", "caption_block"}:
+            role = "body"
+        if role not in roles:
+            roles.append(role)
+    if consolidate_long_body:
+        roles.append("topic_strip")
+    names = ["话题条" if role == "topic_strip" and language != "en" else
+             "Hashtag strip" if role == "topic_strip" else _section_name(role, language) for role in roles]
     joiner = " → " if language == "en" else " → "
     return joiner.join(names)
 
@@ -583,7 +697,7 @@ EN_NORMAL = {
 EN_SECTION_NAMES = SECTION_NAMES["en"]
 
 
-def render_content_blocks_en(fields, layout):
+def render_content_blocks_en(fields, layout, consolidate_long_body=False):
     """Render the English content blocks."""
     by_section = {}
     default_role = layout["sections"][0]["role"]
@@ -591,15 +705,42 @@ def render_content_blocks_en(fields, layout):
         if not f.get("value"):
             continue
         role = section_for_role(f["key"], layout)
+        if consolidate_long_body:
+            if f["key"] in {"hashtags", "hashtag_row", "topic_tag"}:
+                role = "topic_strip"
+            elif role in LONG_BODY_ROLES or role in {"caption_strip", "caption_block"} or f["key"] in LONG_BODY_FIELD_KEYS or f["key"].startswith("body_line"):
+                role = "body"
         by_section.setdefault(role, []).append(f)
     lines = []
+    emitted_body = False
+    emitted_topic = False
     for sec in layout["sections"]:
-        items = by_section.get(sec["role"], [])
+        section_role = sec["role"]
+        if consolidate_long_body and section_role in LONG_BODY_ROLES | {"caption_strip", "caption_block"}:
+            section_role = "body"
+        items = by_section.get(section_role, [])
         if not items:
             continue
-        name = EN_SECTION_NAMES.get(sec["role"], sec["role"])
-        content = ", ".join('"' + it["value"] + '"' for it in items)
+        if consolidate_long_body and section_role == "body":
+            if emitted_body:
+                continue
+            emitted_body = True
+        if consolidate_long_body and section_role == "topic_strip":
+            emitted_topic = True
+        name = "Hashtag strip" if section_role == "topic_strip" else EN_SECTION_NAMES.get(section_role, section_role)
+        if consolidate_long_body and section_role == "topic_strip" and not items:
+            items = [{"key": "hashtags", "value": "#News #Community #Update"}]
+        if consolidate_long_body and section_role == "body":
+            content = '"' + " ".join(str(it["value"]).strip() for it in items) + '"'
+        else:
+            content = ", ".join('"' + it["value"] + '"' for it in items)
         lines.append(f"[{name}] {content}.")
+    if consolidate_long_body and not emitted_body and by_section.get("body"):
+        body_text = " ".join(str(it["value"]).strip() for it in by_section["body"])
+        lines.append(f"[Post body] \"{body_text}\".")
+    if consolidate_long_body and not emitted_topic:
+        tags = by_section.get("topic_strip") or [{"key": "hashtags", "value": "#News #Community #Update"}]
+        lines.append('[Hashtag strip] ' + ", ".join('"' + it["value"] + '"' for it in tags) + ".")
     return "\n".join(lines)
 
 
@@ -636,8 +777,18 @@ TAIL_RULES_EN = (
 
 def build_prompt_en(group, layout, variant_record, carrier, capture_style):
     fields = variant_record["fields"]
-    sections = render_content_blocks_en(fields, layout)
-    struct = " \u2192 ".join(EN_SECTION_NAMES.get(s["role"], s["role"]) for s in layout["sections"])
+    long_mode = group.get("ui_prompt_mode") == "long_quantified"
+    sections = render_content_blocks_en(fields, layout, consolidate_long_body=long_mode)
+    struct_roles = []
+    for sec in layout["sections"]:
+        role = sec["role"]
+        if long_mode and role in LONG_BODY_ROLES | {"caption_strip", "caption_block"}:
+            role = "body"
+        if role not in struct_roles:
+            struct_roles.append(role)
+    if long_mode:
+        struct_roles.append("topic_strip")
+    struct = " \u2192 ".join(EN_SECTION_NAMES.get(role, "Hashtag strip" if role == "topic_strip" else role) for role in struct_roles)
     parts = []
     parts.append(
         f"Generate a {group['aspect_ratio']} image of {EN_CARRIER_DESC[carrier]}, "
@@ -652,12 +803,14 @@ def build_prompt_en(group, layout, variant_record, carrier, capture_style):
     if ui_replica:
         parts.append(ui_replica + ".")
     parts.append(
-        f'A fictitious media outlet "{group["meta"]["outlet_name"]}" reporting on '
+        f'"{group["meta"]["outlet_name"]}" reporting on '
         f'"{group["meta"]["subject_title"]}" covering {HAZARD_EN.get(group["hazard"], "")} '
         f'in {REGION_EN.get(group["region"], "")}. All depicted organisations, places and '
         f'persons are fictional.'
     )
     parts.append(sections)
+    if long_mode:
+        parts.append("All post/article copy must read as one coherent continuous body in a single Post body area; do not create inline notes, continuation pages, or caption areas. Put hashtags in a separate Hashtag strip and render every hashtag in blue.")
     parts.append(
         "Realism details: text edges are crisp, type sizes are hierarchical, and interface "
         "elements are aligned. Every text region must remain sharp and legible character by character."
@@ -683,13 +836,17 @@ def build_prompt_en(group, layout, variant_record, carrier, capture_style):
         '(decorative texture excepted). Use bold type for headings and a clean sans-serif for body '
         'text; small print must be no less than 1.2% of image height.'
     )
-    parts.append(
-        "The layout must strictly follow the section order and relative positions given above; "
-        "if a table appears it must be a complete, regular, ruled table with aligned rows and "
-        "columns and every value and unit present."
-    )
-    props = [f"{EN_SECTION_NAMES.get(sec['role'], sec['role'])} ({sec['pct']}%)"
-             for sec in layout["sections"] if sec.get("pct")]
+    parts.append("The layout must strictly follow the section order and relative positions given above.")
+    props, seen_prop_roles = [], set()
+    for sec in layout["sections"]:
+        role = sec["role"]
+        if long_mode and role in LONG_BODY_ROLES | {"caption_strip", "caption_block"}:
+            role = "body"
+        if role in seen_prop_roles:
+            continue
+        seen_prop_roles.add(role)
+        if sec.get("pct"):
+            props.append(f"{EN_SECTION_NAMES.get(role, role)} ({sec['pct']}%)")
     if props:
         parts.append(
             "Approximate share of the frame per section: " + ", ".join(props) +
@@ -716,20 +873,21 @@ def build_prompt(group, layout, variant_record, carrier_desc, realism_desc,
     """Assemble the final prompt string for one sample."""
     language = group["language"]
     fields = variant_record["fields"]
-    sections_rendered = render_content_blocks(fields, layout, language)
+    long_mode = group.get("ui_prompt_mode") == "long_quantified"
+    sections_rendered = render_content_blocks(fields, layout, language, consolidate_long_body=long_mode)
 
     region_name = group["region_name"]
     hazard_name = group["hazard_name"]
 
     if language == "en":
         subject_line = (
-            f'A fictitious media outlet "{group["meta"]["outlet_name"]}" reporting on '
+            f'"{group["meta"]["outlet_name"]}" reporting on '
             f'"{group["meta"]["subject_title"]}" covering {hazard_name} in {region_name}. '
             f"All depicted subjects, organisations, places and persons are fictional."
         )
     else:
         subject_line = (
-            f'主体为虚构媒体「{group["meta"]["outlet_name"]}」发布的「{group["meta"]["subject_title"]}」，'
+            f'主体为「{group["meta"]["outlet_name"]}」发布的「{group["meta"]["subject_title"]}」，'
             f"涉及{region_name}的{hazard_name}话题。画面中的机构、地名、人名均为虚构。"
         )
 
@@ -739,7 +897,7 @@ def build_prompt(group, layout, variant_record, carrier_desc, realism_desc,
         f"{realism_desc}。"
     )
     parts.append(
-        f"视觉风格：{visual_style_desc}；整体结构：{render_layout_structure(layout, language)}。"
+        f"视觉风格：{visual_style_desc}；整体结构：{render_layout_structure(layout, language, long_mode)}。"
         f"画面是一张完整的独立图像，具有自然的界面文字渲染与专业信息层级。"
     )
     ui_replica = UI_REPLICA_DETAIL.get(group["layout_id"], "")
@@ -747,6 +905,8 @@ def build_prompt(group, layout, variant_record, carrier_desc, realism_desc,
         parts.append(ui_replica + "。")
     parts.append(subject_line)
     parts.append(sections_rendered)
+    if long_mode:
+        parts.append("所有正文内容连成一段通顺、连贯的文字，只放在【正文区】；不要拆出内嵌说明、正文延伸区、正文续页区或图注条。【话题条】与正文分开，标签文字全部呈蓝色。发布时间和互动数字保持提示词给定值。")
 
     # ---- capture style -------------------------------------------------
     parts.append(f"拍摄与呈现方式：{CAPTURE_DETAIL.get(capture_style, CAPTURE_DETAIL['native_screenshot'])}。")
@@ -761,8 +921,18 @@ def build_prompt(group, layout, variant_record, carrier_desc, realism_desc,
         parts.append(f"字体与字号规范：{typography}。")
 
     # ---- layout proportions -------------------------------------------
-    props = [f"{_section_name(sec['role'], language)}({sec['pct']}%)"
-             for sec in layout["sections"] if sec.get("pct")]
+    prop_rows = []
+    seen_prop_roles = set()
+    for sec in layout["sections"]:
+        role = sec["role"]
+        if long_mode and role in LONG_BODY_ROLES | {"caption_strip", "caption_block"}:
+            role = "body"
+        if role in seen_prop_roles:
+            continue
+        seen_prop_roles.add(role)
+        if sec.get("pct"):
+            prop_rows.append((role, sec["pct"]))
+    props = [f"{_section_name(role, language)}({pct}%)" for role, pct in prop_rows]
     if props:
         parts.append(
             "各分区占画面的比例约为：" + "、".join(props) + "；"
@@ -793,17 +963,16 @@ def build_prompt(group, layout, variant_record, carrier_desc, realism_desc,
         )
 
     # ---- verbatim convention ------------------------------------------
-    parts.append(
+    verbatim_rule = (
         "本提示词中「」内的内容为必须逐字呈现的文字（「」符号本身不要画出）；"
-        "「｜」表示表格的列分隔，仅用于表格类内容，不要在正文中画出该符号。"
         "图中所有文字、数字、日期、编号与小字均必须清晰、完整、可辨认，"
         "且须与指定的字符完全一致。"
         "标题使用对应平台的真实标题字重，正文使用对应平台的真实正文字号与字重，"
         "数值与单位之间保留适当间距。"
     )
-    parts.append(
-        "版面须严格遵循上述分区顺序与相对位置；"
-        "若出现表格，必须呈现为完整、规则的方框表格，行列对齐、表头齐备，每行数值与单位完整。"
-    )
+    if not long_mode:
+        verbatim_rule += "「｜」表示表格的列分隔，仅用于表格类内容，不要在正文中画出该符号。"
+    parts.append(verbatim_rule)
+    parts.append("版面须严格遵循上述分区顺序与相对位置。")
     parts.append(TAIL_RULES)
     return "\n".join(parts)

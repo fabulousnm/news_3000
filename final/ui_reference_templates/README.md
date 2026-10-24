@@ -30,19 +30,19 @@ Reusable UI reference images generated from the screenshots in `E:/Repos/picture
 | bbc-desktop-article.png | BBC News 网页端新闻详情 |
 | cnn-desktop-article.png | CNN 网页端新闻详情 |
 
-These are visual references, not pixel-exact captures. AI editing can introduce small deviations or stray text; review a template before using it as a strict visual target. Original source screenshots remain untouched.
+For image+text and long prompt modes, the matching PNG is attached as a visual reference. Short prompts identify the exact platform and ask for a 1:1 recreation without attaching a template image. Prompts supply visible copy, randomized device status values, and unique fictional comments where applicable. The model generates the complete screenshot in one image; there is no separate media-only queue or post-generation UI compositor. Douyin video prompts fill the bottom search box with a white story-related phrase. CNN's upper-right and AP News' right-side gray ad blocks are filled with Ads images.
 
 ## Image+text placeholder completion
 
-The image+text prompt mode includes per-template instructions for filling semantic placeholders while preserving platform chrome. Text skeletons use the supplied headline, body, labels, and metrics; media slots receive topic-matched fictional editorial imagery; avatars and follow/subscribe controls are completed only where that template contains them. The prompts explicitly preserve backgrounds, dividers, icons, navigation, and control shapes, and tell the model to ignore image-generator watermarks and other post-production overlays. A gray region is not automatically treated as an image slot: each template has its own rules for media, text, comments, lists, and sidebars.
+The image+text mode exports complete-image prompts with the matching reference PNG attached. Each template has its own written guidance so the model can fill the visible text skeletons, image panels, and thumbnails while retaining the page structure. CNN and AP News ad blocks are designated for Ads images, not left as gray placeholders.
 | wechat-mobile-feed.png | 微信公众号移动端多帖封面首页 |
 
 ## Prompt-mode allocation
 
 For layout groups backed by one of these real-platform templates, the generator assigns prompt mode once per group and reuses it for all four content variants:
 
-- 60% `image_text`: the prompt asks the image model to use the supplied template image as the visual reference. The JSONL/CSV metadata includes `ui_reference_image` (a repository-relative path), `ui_reference_template`, and `ui_reference_url`. The generation client must attach the local image when calling a model that supports image input.
-- 30% `long_quantified`: keeps the existing detailed, measured UI prompt.
-- 10% `short_text`: names the specific platform/page and includes the generated copy, with minimal UI direction and no reference image attachment.
+- 60% `image_text`: a full natural-language screenshot prompt with a template-specific completion guide and attached reference image.
+- 30% `long_quantified`: retains the detailed body and adds the same template-specific visual direction and attached reference image.
+- 10% `short_text`: a concise natural-language prompt naming the specific template and includes the generated copy; its matching reference image is attached as well.
 
 Current reference-backed layouts cover 615 of the 1,000 groups; other layout types keep the existing long prompt. The release QA report records the eligible-group allocation and checks the exact 60/30/10 split.
